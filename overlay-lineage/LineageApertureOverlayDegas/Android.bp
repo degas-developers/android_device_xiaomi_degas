@@ -4,6 +4,6 @@
 //
 
 runtime_resource_overlay {
-    name: "DuchampFrameworksOverlay",
-    vendor: true,
+    name: "LineageApertureOverlayDegas",
+    product_specific: true,
 }

@@ -4,4 +4,4 @@
 #
 
 PRODUCT_MAKEFILES := \
-    $(LOCAL_DIR)/lineage_duchamp.mk
+    $(LOCAL_DIR)/lineage_degas.mk

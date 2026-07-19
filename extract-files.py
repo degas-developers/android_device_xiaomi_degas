@@ -18,7 +18,7 @@ from extract_utils.main import (
 )
 
 namespace_imports = [
-    'device/xiaomi/duchamp',
+    'device/xiaomi/degas',
     'hardware/mediatek',
     'hardware/xiaomi'
 ]
@@ -123,9 +123,6 @@ blob_fixups: blob_fixups_user_type = {
     'vendor/etc/vintf/manifest/manifest_media_c2_V1_2_default.xml': blob_fixup()
         .regex_replace('.+dolby.+\n', ''),
 
-    'system_ext/priv-app/ImsService/ImsService.apk': blob_fixup()
-        .apktool_patch('blob-patches/ImsService'),
-
     'system_ext/lib64/libimsma.so': blob_fixup()
         .replace_needed('libsink.so', 'libsink-mtk.so'),
 
@@ -135,7 +132,7 @@ blob_fixups: blob_fixups_user_type = {
 }  # fmt: skip
 
 module = ExtractUtilsModule(
-    'duchamp',
+    'degas',
     'xiaomi',
     blob_fixups=blob_fixups,
     lib_fixups=lib_fixups,

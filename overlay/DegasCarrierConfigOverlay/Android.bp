@@ -4,7 +4,7 @@
 //
 
 runtime_resource_overlay {
-    name: "DuchampCarrierConfigOverlay",
+    name: "DegasCarrierConfigOverlay",
     product_specific: true,
     aaptflags: ["--keep-raw-values"],
 }

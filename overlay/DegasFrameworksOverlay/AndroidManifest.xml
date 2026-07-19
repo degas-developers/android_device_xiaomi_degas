@@ -4,8 +4,8 @@
      SPDX-License-Identifier: Apache-2.0
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.android.carrierconfig.overlay.duchamp">
-    <overlay android:targetPackage="com.android.carrierconfig"
+          package="android.overlay.degas">
+    <overlay android:targetPackage="android"
              android:isStatic="true"
              android:priority="100" />
 </manifest>

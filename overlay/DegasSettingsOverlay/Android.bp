@@ -4,6 +4,6 @@
 //
 
 runtime_resource_overlay {
-    name: "LineageApertureOverlayDuchamp",
-    product_specific: true,
+    name: "DegasSettingsOverlay",
+    vendor: true,
 }

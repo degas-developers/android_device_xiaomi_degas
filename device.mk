@@ -213,13 +213,13 @@ PRODUCT_ENFORCE_RRO_TARGETS := *
 $(call inherit-product, hardware/mediatek/overlay/mssi.mk)
 
 PRODUCT_PACKAGES += \
-    DuchampCarrierConfigOverlay \
-    DuchampFrameworksOverlay \
-    DuchampSettingsOverlay \
-    DuchampSystemUIOverlay
+    DegasCarrierConfigOverlay \
+    DegasFrameworksOverlay \
+    DegasSettingsOverlay \
+    DegasSystemUIOverlay
 
 PRODUCT_PACKAGES += \
-    LineageApertureOverlayDuchamp
+    LineageApertureOverlayDegas
 
 PRODUCT_PACKAGES += \
     NcmTetheringOverlay
@@ -351,4 +351,4 @@ PRODUCT_PACKAGES += \
     android.hardware.wifi.passpoint.prebuilt.xml
 
 # Inherit the proprietary files
-$(call inherit-product, vendor/xiaomi/duchamp/duchamp-vendor.mk)
+$(call inherit-product, vendor/xiaomi/degas/degas-vendor.mk)

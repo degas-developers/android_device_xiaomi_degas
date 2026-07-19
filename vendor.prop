@@ -201,8 +201,12 @@ ro.vendor.pq.mtk_video_transition=0
 drm.service.enabled=true
 ro.netflix.bsp_rev=MTK6897-37606-1
 
+# Face unlock (Xiaomi mifaced HAL, android.hardware.biometrics.face AIDL v3)
+persist.vendor.mifaced.fastlaunch=1
+ro.vendor.miface.started=true
+
 # Fingerprint
-persist.vendor.fingerprint.sensor_location=610|2442|114
+persist.vendor.fingerprint.sensor_location=505|2339|105
 persist.vendor.fingerprint.type=udfps_optical
 persist.vendor.sys.fp.expolevel=0x88
 
@@ -252,7 +256,7 @@ persist.vendor.viwifi_support=1
 persist.vendor.volte_support=1
 persist.vendor.vonr_setting_support=1
 persist.vendor.wfc.cnop_vowifi=1
-ro.product.mod_device=duchamp_global
+ro.product.mod_device=degas_global
 ro.telephony.default_network=33,33,33,33
 ro.telephony.iwlan_operation_mode=AP-assisted
 ro.vendor.md_auto_setup_ims=1

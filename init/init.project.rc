@@ -65,5 +65,5 @@ on boot
     chmod 0664 /sys/class/flashlight_core/flashlight/torchbrightness
 
 # charger
-on boot && property:ro.product.device=duchamp && property:ro.boot.hwc=GL
+on boot && property:ro.product.device=degas && property:ro.boot.hwc=GL
     setprop persist.vendor.accelerate.charge false

@@ -1,4 +1,4 @@
-# Unpinned firmware from duchamp_global-user 16 BP2A.250605.031.A3 OS3.0.6.0.WNLMIXM release-keys
+# Unpinned firmware from degas_global-user 16 BP2A.250605.031.A3 OS3.0.4.0.WNEMIXM release-keys
 
 apusys.img;AB
 audio_dsp.img;AB
@@ -16,7 +16,7 @@ mcupm.img;AB
 modem.img;AB
 mvpu_algo.img;AB
 pi_img.img;AB
-preloader_raw.img;AB|c8c0116c47cacaa7cb7cafa3fbff3ee30507e171
+preloader_raw.img;AB
 scp.img;AB
 spmfw.img;AB
 sspm.img;AB

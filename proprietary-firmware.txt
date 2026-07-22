@@ -9,7 +9,7 @@ connsys_wifi.img;AB
 dpm.img;AB
 gpueb.img;AB
 gz.img;AB
-logo.img;AB
+logo.img
 lk.img;AB
 mcf_ota.img;AB
 mcupm.img;AB

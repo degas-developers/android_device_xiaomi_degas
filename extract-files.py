@@ -112,8 +112,11 @@ blob_fixups: blob_fixups_user_type = {
      'vendor/etc/init/android.hardware.graphics.composer@3.2-service.rc' ): blob_fixup()
         .regex_replace('.*writepid.*\n', ''),
 
+    'vendor/lib64/hw/mt6897/vendor.mediatek.hardware.pq_aidl-impl.so': blob_fixup()
+        .replace_needed('libtinyxml2.so', 'libtinyxml2-v34.so')
+        .replace_needed('libui.so', 'libui-v34.so'),
+
     ('odm/lib64/hw/displayfeature.default.so',
-     'vendor/lib64/hw/mt6897/vendor.mediatek.hardware.pq_aidl-impl.so',
      'vendor/lib64/libaudiocloudctrl.so',
      'vendor/lib64/libpqxmlflagparser.so',
      'vendor/lib64/libpqxmlparser.so',

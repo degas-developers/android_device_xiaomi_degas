@@ -1997,9 +1997,9 @@ odm/lib64/camera/plugins/com.xiaomi.plugin.mideflicker.so
 odm/lib64/camera/plugins/com.xiaomi.plugin.midualbokehstream.so
 odm/lib64/camera/plugins/com.xiaomi.plugin.miellc.so
 odm/lib64/camera/plugins/com.xiaomi.plugin.mifrontaibokehstream.so
-odm/lib64/camera/plugins/com.xiaomi.plugin.mihisv1.so
-odm/lib64/camera/plugins/com.xiaomi.plugin.mihisv2.so
-odm/lib64/camera/plugins/com.xiaomi.plugin.mihisv3.so
+odm/lib64/camera/plugins/com.xiaomi.plugin.mihisv1.so;DISABLE_CHECKELF
+odm/lib64/camera/plugins/com.xiaomi.plugin.mihisv2.so;DISABLE_CHECKELF
+odm/lib64/camera/plugins/com.xiaomi.plugin.mihisv3.so;DISABLE_CHECKELF
 odm/lib64/camera/plugins/com.xiaomi.plugin.mimotionvideo.so
 odm/lib64/camera/plugins/com.xiaomi.plugin.misat.so
 odm/lib64/camera/plugins/com.xiaomi.plugin.mivideonight.so

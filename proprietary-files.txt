@@ -302,7 +302,7 @@ vendor/lib64/libjpegencoder.so:vendor/lib64/libjpegencoder-v34.so;FIX_SONAME
 vendor/lib64/libmiSATTranslate.so
 vendor/lib64/libmialgo_ai_vision.so
 vendor/lib64/libmialgo_video_seg_depth.so
-vendor/lib64/libmialgoengine.so
+vendor/lib64/libmialgoengine.so;DISABLE_CHECKELF
 vendor/lib64/libmibokeh_mt6873.so
 vendor/lib64/libmicamera_adapter.so
 vendor/lib64/libmicamjson.so

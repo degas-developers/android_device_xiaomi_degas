@@ -201,3 +201,6 @@ WPA_SUPPLICANT_VERSION := VER_0_8_X
 
 # Inherit the proprietary files
 include vendor/xiaomi/degas/BoardConfigVendor.mk
+
+# Allow ELF prebuilts in PRODUCT_COPY_FILES (restored vendor blobs)
+BUILD_BROKEN_ELF_PREBUILT_PRODUCT_COPY_FILES := true

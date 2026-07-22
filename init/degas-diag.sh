@@ -13,9 +13,12 @@ while [ $i -lt 10 ]; do
         getprop | grep -E "init\.svc\.|sys\.boot|selinux"
         echo "--- ps ---"
         ps -A -o PID,STAT,NAME
+        echo "--- init service events ---"
+        dmesg | grep -aE "init:.*(exited|Killing|signal|cannot|Could not)" | tail -60
         echo "--- dmesg tail ---"
         dmesg | tail -300
     } > "$DIR/diag-$i.txt" 2>&1
-    logcat -d -b all > "$DIR/logcat-$i.txt" 2>&1
+    /system/bin/logcat -d -b all > "$DIR/logcat-$i.txt" 2>&1
+    /system/bin/logcat -d -b crash > "$DIR/crash-$i.txt" 2>&1
     sync
 done

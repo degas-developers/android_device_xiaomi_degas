@@ -82,6 +82,12 @@ blob_fixups: blob_fixups_user_type = {
     'vendor/lib64/mt6897/libmtkcam_hwnode.jpegnode.so': blob_fixup()
         .replace_needed('libultrahdr.so', 'libultrahdr-v34.so'),
 
+    (
+        'odm/lib64/camera/plugins/com.xiaomi.plugin.gainmap.so',
+        'odm/lib64/camera/plugins/com.xiaomi.plugin.jpegrAggr.so',
+    ): blob_fixup()
+        .replace_needed('libultrahdr.so', 'libultrahdr-v34.so'),
+
     'vendor/lib64/libultrahdr-v34.so': blob_fixup()
         .replace_needed('libjpegencoder.so', 'libjpegencoder-v34.so')
         .replace_needed('libjpegdecoder.so', 'libjpegdecoder-v34.so'),

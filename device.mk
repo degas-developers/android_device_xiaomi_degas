@@ -170,6 +170,10 @@ PRODUCT_PACKAGES += \
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/init/init.recovery.mt6897.rc:$(TARGET_COPY_OUT_RECOVERY)/root/init.recovery.mt6897.rc
 
+# Input device config (goodix touch registers as virtual input)
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/configs/idc/goodix_ts.idc:$(TARGET_COPY_OUT_VENDOR)/usr/idc/goodix_ts.idc
+
 # TEMPORARY bring-up diagnostics
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/init/init.degas_diag.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/init.degas_diag.rc \

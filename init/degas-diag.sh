@@ -20,5 +20,10 @@ while [ $i -lt 10 ]; do
     } > "$DIR/diag-$i.txt" 2>&1
     /system/bin/logcat -d -b all > "$DIR/logcat-$i.txt" 2>&1
     /system/bin/logcat -d -b crash > "$DIR/crash-$i.txt" 2>&1
+    if [ $i -eq 3 ]; then
+        /system/bin/dumpsys input > "$DIR/dumpsys-input.txt" 2>&1
+        /system/bin/dumpsys display > "$DIR/dumpsys-display.txt" 2>&1
+        /system/bin/dumpsys SurfaceFlinger > "$DIR/dumpsys-sf.txt" 2>&1
+    fi
     sync
 done

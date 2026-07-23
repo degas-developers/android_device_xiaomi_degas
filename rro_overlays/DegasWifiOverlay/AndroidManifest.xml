@@ -6,6 +6,7 @@
     <application android:hasCode="false" />
     <overlay
         android:targetPackage="com.android.wifi.resources"
+        android:targetName="WifiCustomization"
         android:priority="1001"
         android:isStatic="true" />
 </manifest>

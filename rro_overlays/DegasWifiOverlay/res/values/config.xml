@@ -3,4 +3,7 @@
     <!-- gen4m firmware/driver rejects supplicant-side SAE (Break by
          AuthKey=0xfac08); keep transition-mode APs on WPA2-PSK -->
     <bool name="config_wifiSaeUpgradeEnabled">false</bool>
+    <!-- stock WifiResOverlay enables offloaded upgrade which still puts SAE
+         into the profile; AOSP supplicant + gen4m cannot complete it -->
+    <bool name="config_wifiSaeUpgradeOffloadEnabled">false</bool>
 </resources>

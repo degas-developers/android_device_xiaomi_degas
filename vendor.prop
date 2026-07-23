@@ -313,3 +313,6 @@ ro.hardware.fp.halworkmode=true
 persist.vendor.sys.fp.fod.location.X_Y=505,2339
 persist.vendor.sys.fp.fod.size.width_height=210,210
 persist.vendor.sys.fp.fod.optimize=true
+
+# Marketing name (stock)
+ro.product.vendor.marketname=Xiaomi 14T

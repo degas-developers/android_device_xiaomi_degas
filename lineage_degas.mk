@@ -16,7 +16,7 @@ $(call inherit-product, vendor/lineage/config/common_full_phone.mk)
 PRODUCT_BRAND := Xiaomi
 PRODUCT_DEVICE := degas
 PRODUCT_MANUFACTURER := Xiaomi
-PRODUCT_MODEL := 23127PN0CG
+PRODUCT_MODEL := 2406APNFAG
 PRODUCT_NAME := lineage_degas
 
 PRODUCT_CHARACTERISTICS := nosdcard

@@ -225,7 +225,8 @@ PRODUCT_PACKAGES += \
     DegasCarrierConfigOverlay \
     DegasFrameworksOverlay \
     DegasSettingsOverlay \
-    DegasSystemUIOverlay
+    DegasSystemUIOverlay \
+    DegasWifiOverlay
 
 PRODUCT_PACKAGES += \
     LineageApertureOverlayDegas

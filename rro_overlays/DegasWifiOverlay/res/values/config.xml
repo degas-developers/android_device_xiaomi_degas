@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- gen4m firmware/driver rejects supplicant-side SAE (Break by
+         AuthKey=0xfac08); keep transition-mode APs on WPA2-PSK -->
+    <bool name="config_wifiSaeUpgradeEnabled">false</bool>
+</resources>

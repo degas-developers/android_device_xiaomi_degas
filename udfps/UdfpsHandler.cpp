@@ -12,6 +12,8 @@
 
 #include <poll.h>
 #include <sys/ioctl.h>
+#include <unistd.h>
+#include <atomic>
 #include <fstream>
 #include <thread>
 
@@ -107,6 +109,7 @@ class XiaomiDegasUdfpsHandler : public UdfpsHandler {
                     .revents = 0,
             };
 
+            int failures = 0;
             while (true) {
                 int rc = poll(&dispEventPoll, 1, -1);
                 if (rc < 0) {
@@ -114,10 +117,26 @@ class XiaomiDegasUdfpsHandler : public UdfpsHandler {
                     continue;
                 }
 
+                if (dispEventPoll.revents & (POLLERR | POLLHUP | POLLNVAL)) {
+                    LOG(ERROR) << "disp event fd in error state, revents: " << std::hex
+                               << dispEventPoll.revents << ", giving up (fallback NIT in use)";
+                    mEventThreadBroken = true;
+                    return;
+                }
+
                 std::shared_ptr<disp_event_resp> response = parseDispEvent(fd.get());
                 if (!response) {
+                    // Broken/foreign event stream (e.g. read() == 0 on degas):
+                    // stop busy-looping, rely on the onFingerDown fallback.
+                    if (++failures >= 10) {
+                        LOG(ERROR) << "too many malformed disp events, giving up "
+                                      "(fallback NIT in use)";
+                        mEventThreadBroken = true;
+                        return;
+                    }
                     continue;
                 }
+                failures = 0;
 
                 if (response->base.type != MI_DISP_EVENT_FOD) {
                     LOG(ERROR) << "unexpected display event: " << response->base.type;
@@ -150,6 +169,13 @@ class XiaomiDegasUdfpsHandler : public UdfpsHandler {
 
         // Notify touchscreen about press status
         setFingerDown(true);
+
+        if (mEventThreadBroken) {
+            // degas: FOD UI-ready disp events never arrive — give the panel a
+            // moment to enter LHBM, then signal readiness to the sensor
+            usleep(80 * 1000);
+            mDevice->extCmd(mDevice, COMMAND_NIT, TARGET_BRIGHTNESS_1000NIT);
+        }
     }
 
     void onFingerUp() {
@@ -163,6 +189,10 @@ class XiaomiDegasUdfpsHandler : public UdfpsHandler {
                 .local_hbm_value = LHBM_TARGET_BRIGHTNESS_OFF_FINGER_UP,
         };
         ioctl(disp_fd_.get(), MI_DISP_IOCTL_SET_LOCAL_HBM, &displayLhbmRequest);
+
+        if (mEventThreadBroken) {
+            mDevice->extCmd(mDevice, COMMAND_NIT, TARGET_BRIGHTNESS_OFF);
+        }
 
         // Notify touchscreen about press status
         setFingerDown(false);
@@ -201,6 +231,7 @@ class XiaomiDegasUdfpsHandler : public UdfpsHandler {
     fingerprint_device_t* mDevice;
     android::base::unique_fd touch_fd_;
     android::base::unique_fd disp_fd_;
+    std::atomic<bool> mEventThreadBroken{false};
 
     void setFingerDown(bool pressed) {
         int buf[MAX_BUF_SIZE] = {MI_DISP_PRIMARY, Touch_Fod_Enable, pressed ? 1 : 0};

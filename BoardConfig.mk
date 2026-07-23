@@ -204,3 +204,7 @@ include vendor/xiaomi/degas/BoardConfigVendor.mk
 
 # Allow ELF prebuilts in PRODUCT_COPY_FILES (restored vendor blobs)
 BUILD_BROKEN_ELF_PREBUILT_PRODUCT_COPY_FILES := true
+
+# gen4m cannot parse NL80211_WPA_VERSION_3 in connect (breaks WPA3/SAE);
+# needs the CONFIG_DRIVER_NL80211_MTK exemption in our wpa_supplicant fork
+$(call soong_config_set,wpa_supplicant,nl80211_driver,CONFIG_DRIVER_NL80211_MTK)

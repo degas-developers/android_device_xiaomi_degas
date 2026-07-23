@@ -117,6 +117,10 @@ blob_fixups: blob_fixups_user_type = {
         .replace_needed('libtinyxml2.so', 'libtinyxml2-v34.so')
         .replace_needed('libui.so', 'libui-v34.so'),
 
+    # GraphicBufferMapper::lock/unlock (old libui API removed in A16)
+    'vendor/lib64/libmicamera_hal_core.so': blob_fixup()
+        .replace_needed('libui.so', 'libui-v34.so'),
+
     ('odm/lib64/hw/displayfeature.default.so',
      'vendor/lib64/libaudiocloudctrl.so',
      'vendor/lib64/libpqxmlflagparser.so',

@@ -303,3 +303,13 @@ ro.zram.periodic_wb_delay_hours=24
 
 # Zygote
 zygote.critical_window.minute=10
+
+# Fingerprint goodix FOD HAL configuration (stock values)
+ro.hardware.fp.fod=true
+ro.hardware.fp.fod.location=low
+ro.hardware.fp.fod.touch.ctl.version=2.0
+ro.hardware.fp.mievent=true
+ro.hardware.fp.halworkmode=true
+persist.vendor.sys.fp.fod.location.X_Y=505,2339
+persist.vendor.sys.fp.fod.size.width_height=210,210
+persist.vendor.sys.fp.fod.optimize=true

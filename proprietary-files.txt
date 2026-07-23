@@ -1336,6 +1336,8 @@ odm/bin/hw/vendor.xiaomi.sensor.citsensorservice.aidl
 odm/etc/init/vendor.xiaomi.sensor.citsensorservice.aidl.rc
 odm/etc/sensors/lightSensorCali.json
 odm/etc/sensors/lightSensorConfig.json
+odm/etc/sensors/lightSensorConfig_Stk_Csot.json
+odm/etc/sensors/lightSensorConfig_Stk_Tianma.json
 odm/etc/vintf/manifest/vendor.xiaomi.sensor.citsensorservice.aidl.xml
 odm/lib64/libclient2slpi.notifier.so
 vendor/lib64/libhfmanagerwrapper.so

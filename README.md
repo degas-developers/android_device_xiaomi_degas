@@ -12,9 +12,5 @@ LineageOS device tree for the Xiaomi 14T, codename **degas**
 
 ## Credits
 
-This tree is based on the
-[duchamp device tree](https://github.com/mt6897-devs/device_xiaomi_duchamp)
-by the [mt6897-devs](https://github.com/mt6897-devs) team (POCO X6 Pro,
-same MT6897 platform). Their commit history is preserved in this repository.
-Huge thanks to them — the degas bring-up would have taken far longer without
-their work on this SoC.
+Based on the [duchamp device tree](https://github.com/mt6897-devs/device_xiaomi_duchamp)
+by [mt6897-devs](https://github.com/mt6897-devs) (same MT6897 platform).

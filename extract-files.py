@@ -121,6 +121,14 @@ blob_fixups: blob_fixups_user_type = {
     'vendor/lib64/libmicamera_hal_core.so': blob_fixup()
         .replace_needed('libui.so', 'libui-v34.so'),
 
+    # plain-C SetTaskProfiles came from VNDK v34 libprocessgroup on stock
+    'vendor/lib64/libcameraopt.so': blob_fixup()
+        .add_needed('libprocessgroup_shim.so'),
+
+    # remosaic_process_gain_set exporter must be loaded first (BIND_NOW)
+    'odm/lib64/libmiremosaic.so': blob_fixup()
+        .add_needed('libremosaic_wrapper.so'),
+
     ('odm/lib64/hw/displayfeature.default.so',
      'vendor/lib64/libaudiocloudctrl.so',
      'vendor/lib64/libpqxmlflagparser.so',

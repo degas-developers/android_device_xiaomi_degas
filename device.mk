@@ -267,7 +267,12 @@ PRODUCT_PACKAGES += \
     xiaomi-telephony-stub
 
 PRODUCT_BOOT_JARS += \
-    xiaomi-telephony-stub
+    xiaomi-telephony-stub \
+    mediatek-telephony-base \
+    mediatek-telephony-common \
+    mediatek-ims-common \
+    mediatek-ims-base \
+    mediatek-telecom-common
 
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/permissions/privapp-permissions-com.mediatek.ims.xml:$(TARGET_COPY_OUT_SYSTEM_EXT)/etc/permissions/privapp-permissions-com.mediatek.ims.xml \

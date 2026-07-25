@@ -1,0 +1,30 @@
+From: degas device tree
+Subject: [PATCH] check_boot_jars: allow com.xiaomi
+
+degas puts MediaTek's IMS/telephony jars on the bootclasspath (they have to be
+there, or com.mediatek.ims crash-loops). One of them, mediatek-ims-common,
+carries Xiaomi's own com.xiaomi.ims.XmImsFactory, and the boot jar package check
+fails the build on it:
+
+  Error: .../mediatek-ims-common.jar contains class file
+  com.xiaomi.ims.XmImsFactory, whose package name "com.xiaomi.ims" is empty or
+  not in the allow list
+
+com.mediatek.* is already allowed a few lines above for exactly the same reason;
+this just adds the Xiaomi vendor's namespace next to it. Checked against every
+package in the five jars degas adds - com.xiaomi.ims is the only one outside the
+existing list.
+
+--- a/scripts/check_boot_jars/package_allowed_list.txt
++++ b/scripts/check_boot_jars/package_allowed_list.txt
+@@ -280,6 +280,10 @@ mediatek\..*
+ vendor\.mediatek
+ vendor\.mediatek\..*
+ 
++# Xiaomi adds
++com\.xiaomi
++com\.xiaomi\..*
++
+ # NT adds
+ com\.nothing
+ com\.nothing\..*

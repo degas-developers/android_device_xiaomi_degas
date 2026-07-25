@@ -10,6 +10,8 @@ vendor/lib64/hw/android.hardware.soundtrigger3-impl.so
 vendor/lib64/hw/audio.primary.mediatek.so;SYMLINK=vendor/lib64/hw/audio.primary.mt6897.so
 vendor/lib64/hw/sound_trigger.primary.default.so
 vendor/lib64/hw/vendor.mediatek.hardware.audio-impl.so
+vendor/lib64/libADCSwitch.so
+vendor/lib64/libANS.so
 vendor/lib64/libMtkSpeechEnh.so
 vendor/lib64/lib_iir.so
 vendor/lib64/libalsautils.so:vendor/lib64/libalsautils-v34.so;FIX_SONAME
@@ -37,6 +39,7 @@ vendor/lib64/libmbrainSDKv.so
 vendor/lib64/libmisight.so
 vendor/lib64/libmisoundcrossfade.so;FIX_SONAME
 vendor/lib64/libmisoundfpsop.so
+vendor/lib64/libmisoundparser.so
 vendor/lib64/libmispowerop.so
 vendor/lib64/libmsbc_mtk.so
 vendor/lib64/libmtklimiter_vendor.so
@@ -950,6 +953,35 @@ vendor/bin/mtk_agpsd
 vendor/bin/mtk_lbs_service
 vendor/etc/MNL_Config.xml
 vendor/etc/gnss/agps_profiles_conf2.xml
+vendor/etc/security/cacerts_supl/111e6273.0
+vendor/etc/security/cacerts_supl/252252d2.0
+vendor/etc/security/cacerts_supl/399e7759.0
+vendor/etc/security/cacerts_supl/3ad48a91.0
+vendor/etc/security/cacerts_supl/4bcd7fc4.0
+vendor/etc/security/cacerts_supl/6d4bcacf.0
+vendor/etc/security/cacerts_supl/75680d2e.0
+vendor/etc/security/cacerts_supl/7651b327.0
+vendor/etc/security/cacerts_supl/c44cc0c0.0
+vendor/etc/security/cacerts_supl/c542733d.0
+vendor/etc/security/cacerts_supl/c90bc37d.0
+vendor/etc/security/cacerts_supl/d52df039.0
+vendor/etc/security/cacerts_supl/e071171e.0
+vendor/etc/security/cacerts_supl/ed39abd0.0
+vendor/etc/security/cacerts_supl/f336e3d1.0
+vendor/etc/security/cacerts_supl/facacbc6.0
+vendor/etc/security/cacerts_supl/lab/18dc3a8d.0
+vendor/etc/security/cacerts_supl/lab/1bc5ca0c.0
+vendor/etc/security/cacerts_supl/lab/1bc5ca0c.1
+vendor/etc/security/cacerts_supl/lab/2cbfcc3a.0
+vendor/etc/security/cacerts_supl/lab/35ef1c14.0
+vendor/etc/security/cacerts_supl/lab/399e7759.0
+vendor/etc/security/cacerts_supl/lab/586933d9.0
+vendor/etc/security/cacerts_supl/lab/66272d0d.0
+vendor/etc/security/cacerts_supl/lab/6f1dbe5e.0
+vendor/etc/security/cacerts_supl/lab/b5805141.0
+vendor/etc/security/cacerts_supl/lab/b805b58a.0
+vendor/etc/security/cacerts_supl/lab/ed7b215e.0
+vendor/etc/security/cacerts_supl/lab/ef4b31e6.0
 vendor/etc/gnss/carrier/agps_profiles_conf2_carrier_1and1.xml
 vendor/etc/gnss/carrier/agps_profiles_conf2_carrier_ATnT_Mexico.xml
 vendor/etc/gnss/carrier/agps_profiles_conf2_carrier_ATnT_US.xml
@@ -1057,6 +1089,7 @@ system/etc/public.libraries-mtk.txt
 vendor/etc/public.libraries.txt
 
 # Neural Networks
+vendor/lib64/libnir_neon_driver_ndk.mtk.vndk.so;FIX_SONAME
 system_ext/lib64/libapu_mdw_ext.mtk.so
 system_ext/lib64/libapuwareapusys.mtk.so
 system_ext/lib64/libapuwareapusys_v2.mtk.so
@@ -1199,6 +1232,7 @@ odm/etc/libnfc-nxp_RF.conf:vendor/libnfc-nxp_RF.conf
 vendor/bin/hw/vendor.xiaomi.hardware.secure_element-service
 vendor/etc/init/secure_element-service.rc
 vendor/lib64/libmigpese@2.0.so
+vendor/lib64/libsn220u_fw.so;DISABLE_CHECKELF
 
 # NVRAM
 vendor/bin/hw/vendor.mediatek.hardware.nvram-service

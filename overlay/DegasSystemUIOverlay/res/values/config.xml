@@ -10,4 +10,15 @@
 
     <!-- Preferred max refresh rate at keyguard, if supported by the display. -->
     <integer name="config_keyguardMaxRefreshRate">60</integer>
+
+    <!-- Whether the display supports Display.STATE_DOZE. With the AOSP default
+         (false) SystemUI's DozeScreenState asks PowerManager for STATE_ON while
+         dozing (verified: mDozeScreenStateOverrideFromDreamManager=2), so
+         SurfaceFlinger stays powerMode=On, the panel is never switched into its
+         DDIC AOD mode, and the kernel rejects AOD brightness with
+         "panel_set_doze_brightness normal mode cannot set doze brightness".
+         With true, the request becomes STATE_DOZE -> powerMode=Doze ->
+         "panel_doze_enable" in dmesg, and AOD runs off the DDIC (60 nit) instead
+         of the normal backlight. -->
+    <bool name="doze_display_state_supported">true</bool>
 </resources>

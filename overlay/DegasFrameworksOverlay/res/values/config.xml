@@ -64,6 +64,28 @@
          that can be set by the user. -->
     <integer name="config_screenBrightnessDoze">5</integer>
 
+    <!-- Float counterpart of config_screenBrightnessDoze - DisplayPowerController
+         reads THIS one, the integer above is only a legacy fallback.
+         Keep it at 0: on degas the AOD luminance comes from the DDIC's own AOD
+         mode (mi_display doze_brightness, HBM 60nit / LBM 5nit), and any non-zero
+         value here is written to the backlight ON TOP of that and pulls the AOD
+         DIMMER, not brighter. Verified live: 0.019607844 gave dbv 336 and a dim
+         AOD; zeroing the backlight with the DDIC in AOD/HBM made it visibly
+         brighter. -->
+    <item name="config_screenBrightnessDozeFloat" format="float" type="dimen">0.0</item>
+
+    <!-- Doze / ambient display. degas has all of the vendor side in place
+         (ro.vendor.mtk_aod_support=1, which is what MTK's hwcomposer's
+         displayGetDozeSupport gates on, plus the n12a panel driver implements
+         set_doze_brightness/get_doze_brightness/doze_disable/doze_post_disp_on/
+         doze_suspend), but framework-res ships config_dozeComponent empty and
+         config_dozeAlwaysOnDisplayAvailable false, which disables doze/AOD
+         outright - so the panel never leaves normal mode and the kernel refuses
+         doze ("panel_set_doze_brightness normal mode cannot set doze
+         brightness"). Point it at SystemUI's DozeService and declare AOD. -->
+    <string name="config_dozeComponent" translatable="false">com.android.systemui/com.android.systemui.doze.DozeService</string>
+    <bool name="config_dozeAlwaysOnDisplayAvailable">true</bool>
+
     <!-- Stability requirements in milliseconds for accepting a new brightness level.  This is used
          for debouncing the light sensor.  Different constants are used to debounce the light sensor
          when adapting to brighter or darker environments.  This parameter controls how quickly

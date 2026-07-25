@@ -19,6 +19,12 @@ TARGET_NO_BOOTLOADER := true
 # Display
 TARGET_SCREEN_DENSITY := 480
 
+# Run HWUI on Vulkan (emits ro.hwui.use_vulkan, which the build otherwise leaves
+# empty = GL). Pairs with debug.renderengine.backend=skiavk in vendor.prop: with
+# BOTH on Vulkan the notification shade's blur fits the 144Hz frame budget
+# (12% janky frames vs 26% on GL) - measurement table in vendor.prop.
+TARGET_USES_VULKAN := true
+
 # HIDL
 DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE := \
     hardware/mediatek/vintf/mediatek_framework_compatibility_matrix.xml \

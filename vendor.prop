@@ -62,7 +62,21 @@ ro.crypto.volume.options=aes-256-xts:aes-256-hctr2
 
 # Display
 debug.mediatek.disp_decompress=1
-debug.renderengine.backend=skiagl
+# Vulkan for BOTH SF's RenderEngine and HWUI - fixes the notification shade
+# micro-stutter. The shade's cross-window blur (backgroundBlurRadius=102,
+# KawaseDualFilterV2) does not fit the 6.94ms budget at 144Hz on a GL
+# RenderEngine. Measured (shade expand/collapse x5, warmed up, blur verified
+# active, via gfxinfo + framestats present-interval histogram):
+#   GL / GL     26.5% janky, p50 18ms, 40/135 frames double-presented
+#   Vulkan/VK   12.0% janky, p50 14ms, 15/130 frames double-presented
+#   (blur off, for reference: 4.3%, p50 8ms, 0 dropped - blur is still the
+#    dominant cost, Vulkan just makes it affordable)
+# Both halves are required: with blur off, GL-HWUI + VK-RenderEngine measured
+# 16.5% vs 5.0% for VK+VK, i.e. mixing the two APIs costs more than it saves.
+# (HWUI's half is TARGET_USES_VULKAN := true in BoardConfig.mk - the build emits
+# ro.hwui.use_vulkan from it via ADDITIONAL_VENDOR_PROPERTIES, so setting the
+# prop here too would just duplicate it.)
+debug.renderengine.backend=skiavk
 debug.sf.early.app.duration=11600000
 debug.sf.early.sf.duration=12300000
 debug.sf.earlyGl.app.duration=11600000

@@ -1,2 +1,14 @@
 hal_client_domain(system_app, hal_mlipay)
 hal_client_domain(system_app, vendor_hal_displayfeature)
+
+# XiaomiParts' AodService owns mi_display's doze_brightness, since the
+# displayfeature HAL that drives it on stock ignores DISP_FEATURE_DOZE_BRIGHTNESS
+# on our blob (setFeature returns OK and the node does not move), so the write
+# has to go to sysfs directly.
+rw_dir_file(system_app, vendor_sysfs_displayfeature)
+
+# ...and arms Touch_Fod_Enable for the duration of AOD through the touchfeature
+# HAL. Untested like the rest of hal_touchfeature_xiaomi.te - the HAL's AIDL
+# service still has no service_contexts entry, so this needs revisiting together
+# with that file before the build goes enforcing.
+binder_call(system_app, hal_touchfeature_xiaomi_default)

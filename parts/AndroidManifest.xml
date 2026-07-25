@@ -35,6 +35,11 @@
             android:name=".display.ColorService"
             android:permission="ColorService">
         </service>
+
+        <service
+            android:name=".display.AodService"
+            android:permission="AodService">
+        </service>
     </application>
 </manifest>
 

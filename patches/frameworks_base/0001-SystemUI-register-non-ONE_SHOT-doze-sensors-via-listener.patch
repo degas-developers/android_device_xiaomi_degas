@@ -1,0 +1,147 @@
+From: degas device tree
+Subject: [PATCH] SystemUI: register non-ONE_SHOT doze sensors via the listener API
+
+DozeSensors drives every TriggerSensor through SensorManager#requestTriggerSensor,
+which rejects anything whose reporting mode is not REPORTING_MODE_ONE_SHOT.
+AsyncSensorManager defers the call and unconditionally returns true, so the
+rejection is invisible: DozeSensors reports mRegistered=true, SensorService never
+sees a registration, and the pulse never arrives.
+
+On degas (Xiaomi 14T, mt6897) the UDFPS long-press sensor xiaomi.sensor.fod is
+REPORTING_MODE_SPECIAL_TRIGGER (reportingMode=3), so config_dozeUdfpsLongPress-
+SensorType has no effect at all and fingerprint unlock is dead while the display
+is dozing. Verified on-device: a plain registerListener() on the same sensor does
+deliver events.
+
+Fall back to registerListener/unregisterListener for sensors the TriggerEvent API
+cannot take, and keep mRegistered set for those, since a listener registration -
+unlike a one-shot trigger - survives the event.
+
+--- a/packages/SystemUI/src/com/android/systemui/doze/DozeSensors.java
++++ b/packages/SystemUI/src/com/android/systemui/doze/DozeSensors.java
+@@ -28,6 +28,8 @@
+ import android.content.res.Resources;
+ import android.database.ContentObserver;
+ import android.hardware.Sensor;
++import android.hardware.SensorEvent;
++import android.hardware.SensorEventListener;
+ import android.hardware.SensorManager;
+ import android.hardware.TriggerEvent;
+ import android.hardware.TriggerEventListener;
+@@ -545,7 +547,7 @@
+     }
+ 
+     @VisibleForTesting
+-    class TriggerSensor extends TriggerEventListener {
++    class TriggerSensor extends TriggerEventListener implements SensorEventListener {
+         @NonNull final Sensor[] mSensors; // index = posture, value = sensor
+         boolean mConfigured;
+         final int mPulseReason;
+@@ -754,7 +756,7 @@
+ 
+             // cancel the previous sensor:
+             if (mRegistered) {
+-                final boolean rt = mSensorManager.cancelTriggerSensor(this, oldSensor);
++                final boolean rt = unregisterFrom(oldSensor);
+                 mDozeLog.traceSensorUnregisterAttempt(oldSensor.toString(), rt, "posture changed");
+                 mRegistered = false;
+             }
+@@ -800,18 +802,48 @@
+             if (!mConfigured || sensor == null) return;
+             if (mRequested && !mDisabled && (enabledBySetting() || mIgnoresSetting)) {
+                 if (!mRegistered) {
+-                    mRegistered = mSensorManager.requestTriggerSensor(this, sensor);
++                    mRegistered = registerTo(sensor);
+                     mDozeLog.traceSensorRegisterAttempt(sensor.toString(), mRegistered);
+                 } else {
+                     mDozeLog.traceSkipRegisterSensor(sensor.toString());
+                 }
+             } else if (mRegistered) {
+-                final boolean rt = mSensorManager.cancelTriggerSensor(this, sensor);
++                final boolean rt = unregisterFrom(sensor);
+                 mDozeLog.traceSensorUnregisterAttempt(sensor.toString(), rt);
+                 mRegistered = false;
+             }
+         }
+ 
++        /**
++         * Whether {@code sensor} can be driven through the TriggerEvent API.
++         *
++         * {@link SensorManager#requestTriggerSensor} rejects anything that is not
++         * {@link Sensor#REPORTING_MODE_ONE_SHOT}. Some vendors expose doze sensors -
++         * notably the UDFPS long-press sensor - as REPORTING_MODE_SPECIAL_TRIGGER
++         * instead, and because AsyncSensorManager reports the deferred request as
++         * successful, that rejection is invisible: the sensor is never enabled and
++         * the pulse silently never arrives. Fall back to the listener API for those.
++         */
++        private boolean usesTriggerApi(Sensor sensor) {
++            return sensor.getReportingMode() == Sensor.REPORTING_MODE_ONE_SHOT;
++        }
++
++        private boolean registerTo(Sensor sensor) {
++            if (usesTriggerApi(sensor)) {
++                return mSensorManager.requestTriggerSensor(this, sensor);
++            }
++            return mSensorManager.registerListener(this, sensor,
++                    SensorManager.SENSOR_DELAY_NORMAL);
++        }
++
++        private boolean unregisterFrom(Sensor sensor) {
++            if (usesTriggerApi(sensor)) {
++                return mSensorManager.cancelTriggerSensor(this, sensor);
++            }
++            mSensorManager.unregisterListener(this, sensor);
++            return true;
++        }
++
+         protected boolean enabledBySetting() {
+             if (!mConfig.enabled(mSelectedUserInteractor.getSelectedUserId())) {
+                 return false;
+@@ -842,6 +874,24 @@
+         @Override
+         @AnyThread
+         public void onTrigger(TriggerEvent event) {
++            // A one-shot sensor disarms itself as it fires.
++            onSensorTriggered(event.values, true /* selfUnregistered */);
++        }
++
++        @Override
++        @AnyThread
++        public void onSensorChanged(SensorEvent event) {
++            // Listener registrations survive the event, so the sensor stays armed.
++            onSensorTriggered(event.values, false /* selfUnregistered */);
++        }
++
++        @Override
++        public void onAccuracyChanged(Sensor sensor, int accuracy) {
++            // Not used.
++        }
++
++        @AnyThread
++        private void onSensorTriggered(float[] values, boolean selfUnregistered) {
+             final Sensor sensor = mSensors[mPosture];
+             mDozeLog.traceSensor(mPulseReason);
+             mHandler.post(mWakeLock.wrap(() -> {
+@@ -849,15 +899,17 @@
+                     UI_EVENT_LOGGER.log(DozeSensorsUiEvent.ACTION_AMBIENT_GESTURE_PICKUP);
+                 }
+ 
+-                mRegistered = false;
++                if (selfUnregistered) {
++                    mRegistered = false;
++                }
+                 float screenX = -1;
+                 float screenY = -1;
+-                if (mReportsTouchCoordinates && event.values.length >= 2) {
+-                    screenX = event.values[0];
+-                    screenY = event.values[1];
++                if (mReportsTouchCoordinates && values.length >= 2) {
++                    screenX = values[0];
++                    screenY = values[1];
+                 }
+                 mSensorCallback.onSensorPulse(mPulseReason, mPerformsProxCheck,
+-                        screenX, screenY, event.values);
++                        screenX, screenY, values);
+                 if (!mRegistered && mImmediatelyReRegister) {
+                     updateListening();
+                 }

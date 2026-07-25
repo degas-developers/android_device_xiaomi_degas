@@ -86,6 +86,18 @@
     <string name="config_dozeComponent" translatable="false">com.android.systemui/com.android.systemui.doze.DozeService</string>
     <bool name="config_dozeAlwaysOnDisplayAvailable">true</bool>
 
+    <!-- UDFPS while dozing. With the screen in DOZE the touchscreen no longer
+         delivers ordinary input events, so SystemUI's UdfpsView never sees an
+         ACTION_DOWN and the fingerprint HAL is never told a finger is present -
+         which is exactly why FOD used to die a few seconds into AOD. The AOSP
+         path for this is DozeSensors' udfps-long-press TriggerSensor, which
+         fires DozeTriggers -> AuthController.onAodInterrupt() ->
+         UdfpsController; it is gated on this resource, and framework-res ships
+         it empty. degas has the sensor: "Fod Wakeup", xiaomi.sensor.fod
+         (0x1FA0016, special-trigger, wakeUp), served by the
+         vendor.xiaomi.hw.touchfeature service's TouchFeatureSensor. -->
+    <string name="config_dozeUdfpsLongPressSensorType" translatable="false">xiaomi.sensor.fod</string>
+
     <!-- Stability requirements in milliseconds for accepting a new brightness level.  This is used
          for debouncing the light sensor.  Different constants are used to debounce the light sensor
          when adapting to brighter or darker environments.  This parameter controls how quickly

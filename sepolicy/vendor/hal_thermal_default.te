@@ -1,0 +1,4 @@
+# The thermal HAL owns GPU throttling on degas: it watches the gpu1 zone and
+# drives the devfreq-13000000.mali cooling device. Writing cur_state needs more
+# than the read access the base policy grants.
+rw_dir_file(hal_thermal_default, sysfs_therm)

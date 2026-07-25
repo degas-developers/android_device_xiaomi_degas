@@ -1376,7 +1376,6 @@ odm/etc/thermal-yuanshen.conf
 vendor/bin/mi_thermald
 vendor/etc/init/hw/init.mi_thermald.rc
 vendor/etc/thermal-map.conf
-vendor/etc/thermald-devices.conf
 
 # Trusted Execution Environment (TEE)
 vendor/bin/miteelog

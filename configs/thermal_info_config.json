@@ -139,6 +139,30 @@
             ],
             "VrThreshold": "NaN",
             "Multiplier": 0.001
+        },
+        {
+            "Name":"gpu1",
+            "Type":"GPU",
+            "Hidden": true,
+            "HotThreshold":[
+                "NaN",
+                "NaN",
+                "NaN",
+                85.0,
+                90.0,
+                100.0,
+                117.0
+            ],
+            "VrThreshold": "NaN",
+            "Multiplier": 0.001,
+            "PollingDelay": 5000,
+            "PassiveDelay": 2000,
+            "BindedCdevInfo":[
+                {
+                    "CdevRequest": "devfreq-13000000.mali",
+                    "LimitInfo": [0, 0, 0, 10, 20, 40, 55]
+                }
+            ]
         }
     ],
     "CoolingDevices":[

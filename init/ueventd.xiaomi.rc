@@ -4,3 +4,8 @@ subsystem mi_display
     dirname /dev/mi_display
 
 /dev/mi_display/*         0666   root       graphics
+
+# Let the thermal HAL drive the cooling devices it is bound to. Without this the
+# nodes stay root-owned 0644 and the HAL fails every throttling request with
+# "Failed to write cdev: devfreq-13000000.mali to N: Permission denied".
+/sys/devices/virtual/thermal/cooling_device*   cur_state   0664   system   system

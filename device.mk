@@ -174,11 +174,6 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/idc/goodix_ts.idc:$(TARGET_COPY_OUT_VENDOR)/usr/idc/goodix_ts.idc
 
-# TEMPORARY bring-up diagnostics
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/init/init.degas_diag.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/init.degas_diag.rc \
-    $(LOCAL_PATH)/init/degas-diag.sh:$(TARGET_COPY_OUT_VENDOR)/bin/degas-diag.sh
-
 # Keymint
 PRODUCT_PACKAGES += \
     android.hardware.hardware_keystore_V3.xml

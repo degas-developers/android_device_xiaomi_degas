@@ -12,6 +12,13 @@ r_dir_file(hal_sensors_default, vendor_sysfs_displayfeature)
 allow hal_sensors_default device:dir r_dir_perms;
 allow hal_sensors_default hidraw_device:chr_file rw_file_perms;
 
+# sensors.udfps.degas reads the goodix touch controller's FOD press key straight
+# from the input device: no hardware sensor reports a fingerprint press here, so
+# this is what feeds config_dozeUdfpsLongPressSensorType. The process is already
+# in the input group, so only the label needs allowing.
+allow hal_sensors_default input_device:dir r_dir_perms;
+allow hal_sensors_default input_device:chr_file r_file_perms;
+
 allow hal_sensors_default audio_socket:sock_file rw_file_perms;
 allow hal_sensors_default dmabuf_system_secure_heap_device:chr_file r_file_perms;
 allow hal_sensors_default fwk_sensor_hwservice:hwservice_manager find;

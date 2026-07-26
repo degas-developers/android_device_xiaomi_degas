@@ -298,6 +298,15 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
    sensors.dynamic_sensor_hal
 
+# Supplies the one-shot wake sensor behind config_dozeUdfpsLongPressSensorType;
+# no hardware sensor reports a fingerprint press on this device.
+PRODUCT_PACKAGES += \
+   sensors.udfps.degas
+
+# Ours, not the extracted blob, so that the sub-HAL above is listed.
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/configs/sensors/hals.conf:$(TARGET_COPY_OUT_VENDOR)/etc/sensors/hals.conf
+
 PRODUCT_PACKAGES += \
    android.hardware.sensor.dynamic.head_tracker.prebuilt.xml \
    android.hardware.sensor.gyroscope.prebuilt.xml \

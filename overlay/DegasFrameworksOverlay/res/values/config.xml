@@ -88,15 +88,19 @@
 
     <!-- UDFPS while dozing. With the screen in DOZE the touchscreen no longer
          delivers ordinary input events, so SystemUI's UdfpsView never sees an
-         ACTION_DOWN and the fingerprint HAL is never told a finger is present -
-         which is exactly why FOD used to die a few seconds into AOD. The AOSP
-         path for this is DozeSensors' udfps-long-press TriggerSensor, which
-         fires DozeTriggers -> AuthController.onAodInterrupt() ->
-         UdfpsController; it is gated on this resource, and framework-res ships
-         it empty. degas has the sensor: "Fod Wakeup", xiaomi.sensor.fod
-         (0x1FA0016, special-trigger, wakeUp), served by the
-         vendor.xiaomi.hw.touchfeature service's TouchFeatureSensor. -->
-    <string name="config_dozeUdfpsLongPressSensorType" translatable="false">xiaomi.sensor.fod</string>
+         ACTION_DOWN and the fingerprint HAL is never told a finger is present.
+         The AOSP path for this is DozeSensors' udfps-long-press TriggerSensor,
+         which fires DozeTriggers -> UdfpsController.onAodInterrupt(),
+         dispatching the finger-down straight to the HAL while the device stays
+         dozing; it is gated on this resource, and framework-res ships it empty.
+
+         This is NOT MediaTek's xiaomi.sensor.fod, which we used to point at
+         here: that one is served by the SCP sub-HAL, while degas processes touch
+         frames in userspace (THP), so the SCP never sees a finger and the sensor
+         only ever emitted garbage on movement - producing spurious FOD circles
+         and stacked failed attempts. Ours reads the goodix driver's FOD key from
+         the input device instead; see sensors/UdfpsSensorSubHal.cpp. -->
+    <string name="config_dozeUdfpsLongPressSensorType" translatable="false">org.degas.sensor.udfps_long_press</string>
 
     <!-- Stability requirements in milliseconds for accepting a new brightness level.  This is used
          for debouncing the light sensor.  Different constants are used to debounce the light sensor

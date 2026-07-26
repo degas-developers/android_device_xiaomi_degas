@@ -66,13 +66,28 @@
 
     <!-- Float counterpart of config_screenBrightnessDoze - DisplayPowerController
          reads THIS one, the integer above is only a legacy fallback.
-         Keep it at 0: on degas the AOD luminance comes from the DDIC's own AOD
-         mode (mi_display doze_brightness, HBM 60nit / LBM 5nit), and any non-zero
-         value here is written to the backlight ON TOP of that and pulls the AOD
-         DIMMER, not brighter. Verified live: 0.019607844 gave dbv 336 and a dim
-         AOD; zeroing the backlight with the DDIC in AOD/HBM made it visibly
-         brighter. -->
-    <item name="config_screenBrightnessDozeFloat" format="float" type="dimen">0.0</item>
+         0 makes the settled AOD brighter - the luminance then comes purely from
+         the DDIC's own AOD mode (mi_display doze_brightness, HBM 60nit) and no
+         backlight value is written on top of it. But 0 costs two real bugs, so
+         it is deliberately non-zero for now:
+
+         - Entering AOD from the lock screen, DozeScreenState holds the display
+           in STATE_ON for ENTER_DOZE_DELAY (4 s) so the lock->AOD animation is
+           visible, and asks for this brightness while it does. At 0 that window
+           is simply black, which is the "screen goes black, AOD shows up a
+           couple of seconds later" complaint.
+         - The panel refuses MI_DISP_IOCTL_SET_LOCAL_HBM below bl_level 15
+           (mi_disp_panel_send_lhbm buckets: 15..1308 / 1309..11467 /
+           11468..16383), and at 0 the level sits at 1 - so the fingerprint is
+           never lit and unlock from AOD only works in the entry window where the
+           backlight has not dropped yet.
+
+         5/255 matches config_screenBrightnessDoze above and lands at dbv ~336,
+         comfortably inside the first LHBM bucket. The settled AOD is dimmer than
+         with 0; that is accepted until brightness is driven at the DDIC level
+         through displayfeature's mipi_rw path, which is the same work as raising
+         the manual maximum. -->
+    <item name="config_screenBrightnessDozeFloat" format="float" type="dimen">0.019607844</item>
 
     <!-- Doze / ambient display. degas has all of the vendor side in place
          (ro.vendor.mtk_aod_support=1, which is what MTK's hwcomposer's

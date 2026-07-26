@@ -8,7 +8,6 @@ hal_client_domain(system_app, vendor_hal_displayfeature)
 rw_dir_file(system_app, vendor_sysfs_displayfeature)
 
 # ...and arms Touch_Fod_Enable for the duration of AOD through the touchfeature
-# HAL. Untested like the rest of hal_touchfeature_xiaomi.te - the HAL's AIDL
-# service still has no service_contexts entry, so this needs revisiting together
-# with that file before the build goes enforcing.
+# HAL, which it has to look up first.
 binder_call(system_app, hal_touchfeature_xiaomi_default)
+allow system_app vendor_hal_touchfeature_service:service_manager find;

@@ -4,3 +4,7 @@ r_dir_file(mtk_hal_camera, sysfs_therm)
 allow mtk_hal_camera proc_pressure_mem:file rw_file_perms;
 allow mtk_hal_camera vendor_data_file:dir create_dir_perms;
 allow mtk_hal_camera vendor_data_file:file create_file_perms;
+
+add_service(mtk_hal_camera, vendor_hal_camera_bgservice)
+
+get_prop(mtk_hal_camera, camera_config_prop)

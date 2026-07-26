@@ -10,3 +10,10 @@ allow hal_fingerprint_default touchfeature_device:chr_file rw_file_perms;
 allow hal_fingerprint_default vendor_displayfeature_device:chr_file rw_file_perms;
 
 set_prop(hal_fingerprint_default, vendor_fingerprint_prop)
+
+# LHBM: the FP HAL drives the fingerprint spot through the composer, so it both
+# calls it and gets called back.
+binder_call(hal_fingerprint_default, hal_graphics_composer_default)
+hal_client_domain(hal_fingerprint_default, hal_mtk_composer_ext)
+
+get_prop(hal_fingerprint_default, vendor_panel_prop)

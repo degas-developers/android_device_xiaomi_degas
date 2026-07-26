@@ -1,0 +1,2 @@
+# Reads the androidboot node out of the device tree at start-up.
+r_dir_file(fuelgauged_nvram, sysfs_dt_firmware_android)

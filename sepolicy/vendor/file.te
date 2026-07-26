@@ -9,3 +9,5 @@ type vendor_sysfs_displayfeature, fs_type, sysfs_type;
 
 # Touch
 type touchfeature_device, dev_type;
+type proc_touch, fs_type, proc_type;
+type sysfs_touch, fs_type, sysfs_type;

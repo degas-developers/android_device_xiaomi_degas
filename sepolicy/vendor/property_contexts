@@ -36,6 +36,9 @@ persist.vendor.sys.rkp.status                  u:object_r:vendor_payment_securit
 vendor.sys.feature_state                       u:object_r:vendor_payment_security_prop:s0
 vendor.sys.rpmb_state                          u:object_r:vendor_payment_security_prop:s0
 
+# Panel identity
+vendor.panel.                                  u:object_r:vendor_panel_prop:s0
+
 # Radio
 ro.vendor.oem.                                 u:object_r:vendor_mtk_radio_prop:s0
 

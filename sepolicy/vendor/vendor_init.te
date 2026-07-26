@@ -3,3 +3,7 @@ set_prop(vendor_init, vendor_displayfeature_prop)
 set_prop(vendor_init, vendor_fingerprint_prop)
 
 rw_dir_file(vendor_init, sysfs_ged)
+
+# init.project.rc lives in /vendor, so vendor_init is what runs its commands.
+# It writes thermal_message/sconfig to pick mi_thermald's scenario.
+allow vendor_init sysfs_therm:file w_file_perms;

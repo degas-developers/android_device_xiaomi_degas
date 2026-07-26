@@ -67,3 +67,31 @@ on boot
 # charger
 on boot && property:ro.product.device=degas && property:ro.boot.hwc=GL
     setprop persist.vendor.accelerate.charge false
+
+# Thermal scenario for mi_thermald.
+#
+# Xiaomi's thermal daemon picks its throttling policy from the scenario in
+# thermal_message/sconfig, which HyperOS feeds from PowerKeeper. Nothing does
+# that here, so sconfig stays at -1 forever and the daemon sits in its most
+# conservative baseline policy: it clamps the CPU freq_qos from a *board*
+# temperature of 33 C and settles at 1.4/2.3/2.4 GHz against hardware maxima of
+# 2.2/3.2/3.35, while the die is only at 81 C. That costs a third of the CPU
+# benchmark score. Every policy-backed scenario throttles just as hard; 6 is the
+# one that leaves the CPU alone. The die then plateaus at 86-88 C under a
+# sustained all-core load, against a 119 C crit trip.
+#
+# Two things about the trigger, both learned the hard way:
+#
+# It cannot be `on property:init.svc.mi_thermald=running`. This file is in
+# /vendor, so *vendor_init* executes it, and vendor_init may not read
+# init.svc.* (init_service_status_private_prop is core-only). The trigger then
+# silently never fires; the only trace is one avc denial in dmesg.
+#
+# It cannot be `on boot` either. mi_thermald only reacts to the inotify event
+# for a *change* of sconfig, and at `on boot` it has not established its watch
+# yet - the file ends up reading 6 while the daemon still runs the baseline
+# policy, which looks exactly like the fix working but does not. By
+# sys.boot_completed the daemon is long up, and this is the only writer, so the
+# -1 -> 6 transition is a real event it sees.
+on property:sys.boot_completed=1
+    write /sys/class/thermal/thermal_message/sconfig 6

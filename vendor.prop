@@ -5,10 +5,10 @@ audio.deep_buffer.media=true
 audio.offload.min.duration.secs=30
 audio.offload.video=true
 persist.vendor.audio.cinema.support=true
-persist.vendor.audio.power.save.setting=253
+persist.vendor.audio.power.save.setting=13
 persist.vendor.audio.usb.offload=false
 ro.audio.monitorRotation=true
-ro.config.media_vol_default=10
+ro.config.media_vol_default=20
 ro.config.vc_call_vol_default=4
 ro.config.vc_call_vol_steps=11
 ro.vendor.audio.gain.support=true
@@ -29,12 +29,12 @@ persist.vendor.camera3.pipeline.bufnum.base.imgo=6
 persist.vendor.camera3.pipeline.bufnum.base.lcso=4
 persist.vendor.camera3.pipeline.bufnum.base.rrzo=6
 persist.vendor.camera3.pipeline.bufnum.base.rsso=5
-persist.vendor.camera3.pipeline.bufnum.min.high_ram.fdyuv=5
+persist.vendor.camera3.pipeline.bufnum.min.high_ram.fdyuv=20
 persist.vendor.camera3.pipeline.bufnum.min.high_ram.imgo=7
 persist.vendor.camera3.pipeline.bufnum.min.high_ram.lcso=7
 persist.vendor.camera3.pipeline.bufnum.min.high_ram.rrzo=6
 persist.vendor.camera3.pipeline.bufnum.min.high_ram.rsso=7
-persist.vendor.camera3.pipeline.bufnum.min.low_ram.fdyuv=5
+persist.vendor.camera3.pipeline.bufnum.min.low_ram.fdyuv=20
 persist.vendor.camera3.pipeline.bufnum.min.low_ram.imgo=6
 persist.vendor.camera3.pipeline.bufnum.min.low_ram.lcso=6
 persist.vendor.camera3.pipeline.bufnum.min.low_ram.rrzo=6
@@ -245,8 +245,8 @@ ro.vendor.mtk_nn_support=1
 
 # Platform
 ro.vendor.mediatek.platform=MT6897
-ro.vendor.mediatek.version.branch=alps-mp-u0.mp1.tc8sp1
-ro.vendor.mediatek.version.release=alps-mp-u0.mp1.tc8sp1-V1
+ro.vendor.mediatek.version.branch=alps-mp-u0.mp1.tc8sp3
+ro.vendor.mediatek.version.release=alps-mp-u0.mp1.tc8sp3-V1
 ro.vendor.mgk_name=mgk_64_k61
 
 # Radio

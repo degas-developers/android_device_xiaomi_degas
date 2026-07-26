@@ -212,5 +212,8 @@ include vendor/xiaomi/degas/BoardConfigVendor.mk
 BUILD_BROKEN_ELF_PREBUILT_PRODUCT_COPY_FILES := true
 
 # gen4m cannot parse NL80211_WPA_VERSION_3 in connect (breaks WPA3/SAE);
-# needs the CONFIG_DRIVER_NL80211_MTK exemption in our wpa_supplicant fork
-$(call soong_config_set,wpa_supplicant,nl80211_driver,CONFIG_DRIVER_NL80211_MTK)
+# needs the CONFIG_DRIVER_NL80211_MTK exemption in our wpa_supplicant fork.
+# The namespace MUST be wpa_supplicant_8: the wpa_supplicant/nl80211_driver
+# variable only feeds wpa_supplicant_cflags_defaults, which no module uses, so
+# the guard silently never reaches the vendor supplicant binary.
+$(call soong_config_set_bool,wpa_supplicant_8,board_wlan_mtk_gen4m,true)

@@ -11,3 +11,7 @@ rw_dir_file(system_app, vendor_sysfs_displayfeature)
 # HAL, which it has to look up first.
 binder_call(system_app, hal_touchfeature_xiaomi_default)
 allow system_app vendor_hal_touchfeature_service:service_manager find;
+
+# RefreshRateHealService watches the tick the fingerprint HAL publishes when it
+# drops LHBM, which is when the panel needs a mode-set back to 144 Hz.
+get_prop(system_app, vendor_degas_display_prop)

@@ -15,6 +15,7 @@ import android.view.Display;
 import android.view.Display.HdrCapabilities;
 import com.xiaomi.settings.display.ColorService
 import com.xiaomi.settings.display.AodService
+import com.xiaomi.settings.display.RefreshRateHealService
 
 class BootCompletedReceiver : BroadcastReceiver() {
 
@@ -45,6 +46,7 @@ class BootCompletedReceiver : BroadcastReceiver() {
         // Display
         ColorService.startService(context)
         AodService.startService(context)
+        RefreshRateHealService.startService(context)
     }
 
     companion object {

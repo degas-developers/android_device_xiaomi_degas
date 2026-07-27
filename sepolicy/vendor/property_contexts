@@ -20,6 +20,7 @@ ro.vendor.mtk.pq.odm                           u:object_r:vendor_displayfeature_
 ro.vendor.sre.enable                           u:object_r:vendor_displayfeature_prop:s0
 vendor.display.panel.calibration.status        u:object_r:vendor_displayfeature_prop:s0
 vendor.displayfeature.entry.enable             u:object_r:vendor_displayfeature_prop:s0
+vendor.degas.display.                          u:object_r:vendor_degas_display_prop:s0
 
 # Fingerprint
 persist.vendor.fpc.                            u:object_r:vendor_fingerprint_prop:s0

@@ -14,7 +14,9 @@
 #include <sys/ioctl.h>
 #include <unistd.h>
 #include <atomic>
+#include <cstdint>
 #include <fstream>
+#include <string>
 #include <thread>
 
 #include "UdfpsHandler.h"
@@ -35,6 +37,21 @@
 #define TOUCH_IOC_GET_CUR_VALUE _IO(TOUCH_MAGIC, GET_CUR_VALUE)
 
 #define DISP_FEATURE_PATH "/dev/mi_display/disp_feature"
+
+/*
+ * Entering LHBM reprograms the DDIC to 120 Hz, and leaving it does not put the
+ * panel back - measured on degas, and the kernel gives it away in
+ * mi_disp_lhbm_fod_event_notify's "refresh_rate(120), delay_us(41665)".
+ * MTK DRM never learns about it, so SurfaceFlinger keeps scheduling frames for
+ * a 6.94 ms vsync while the panel presents on an 8.33 ms one; the queue stuffs
+ * and every app renders visibly late until something forces a real mode-set.
+ *
+ * Nothing on the panel side restores it (LHBM off, FP_STATUS AUTH_STOP,
+ * AOD_TO_NORMAL and OFF_TO_NORMAL_BACKLIGHT_RESTORE were all tried and are
+ * no-ops), so the mode-set has to come from the framework. Publish a tick and
+ * let XiaomiParts' RefreshRateHealService do it.
+ */
+#define HEAL_REFRESH_RATE_PROP "vendor.degas.display.heal_refresh_rate"
 
 using ::aidl::android::hardware::biometrics::fingerprint::AcquiredInfo;
 
@@ -196,6 +213,9 @@ class XiaomiDegasUdfpsHandler : public UdfpsHandler {
 
         // Notify touchscreen about press status
         setFingerDown(false);
+
+        // The panel is now stuck at 120 Hz behind DRM's back; ask for a mode-set.
+        android::base::SetProperty(HEAL_REFRESH_RATE_PROP, std::to_string(++mHealTick));
     }
 
     void onAcquired(int32_t result, int32_t vendorCode) {
@@ -232,6 +252,7 @@ class XiaomiDegasUdfpsHandler : public UdfpsHandler {
     android::base::unique_fd touch_fd_;
     android::base::unique_fd disp_fd_;
     std::atomic<bool> mEventThreadBroken{false};
+    std::atomic<uint64_t> mHealTick{0};
 
     void setFingerDown(bool pressed) {
         int buf[MAX_BUF_SIZE] = {MI_DISP_PRIMARY, Touch_Fod_Enable, pressed ? 1 : 0};

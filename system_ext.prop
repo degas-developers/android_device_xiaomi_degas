@@ -12,6 +12,20 @@ ro.vendor.vodata_support=1
 vendor.rild.libargs=-d /dev/ttyC0
 vendor.rild.libpath=mtk-ril.so
 
+# Logging
+# citsensorservice and the composer's CWB path log every ambient-light sample
+# (~220 lines/s, over half of all logcat traffic on this device) and they use
+# the E level for routine output, so a level filter is not enough. Silencing
+# them cuts the daemon's CPU roughly in half while the screen is off.
+# Re-enable any of them at runtime with `setprop log.tag.<tag> V`.
+log.tag.HfManager=S
+log.tag.libsensor-displayInfoManager=S
+log.tag.libsensor-displayalgo=S
+log.tag.libsensor-frameBufferManager=S
+log.tag.libsensor-parseRGB=S
+log.tag.libsensor-ssccalapi=S
+log.tag.libcomposer_ext=W
+
 # Media
 media.stagefright.thumbnail.prefer_hw_codecs=true
 

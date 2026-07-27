@@ -1,24 +1,24 @@
-# Unpinned firmware from degas_global-user 16 BP2A.250605.031.A3 OS3.0.4.0.WNEMIXM release-keys
+# Pinned firmware from degas_global-user 16 BP2A.250605.031.A3 OS3.0.4.0.WNEMIXM release-keys
 
-apusys.img;AB
-audio_dsp.img;AB
-ccu.img;AB
-connsys_bt.img;AB
-connsys_gnss.img;AB
-connsys_wifi.img;AB
-dpm.img;AB
-gpueb.img;AB
-gz.img;AB
-logo.img
-lk.img;AB
-mcf_ota.img;AB
-mcupm.img;AB
-modem.img;AB
-mvpu_algo.img;AB
-pi_img.img;AB
-preloader_raw.img;AB
-scp.img;AB
-spmfw.img;AB
-sspm.img;AB
-tee.img;AB
-vcp.img;AB
+apusys.img;AB|4f5d3e9a83eec95093b859559d381e61c6da4ddb
+audio_dsp.img;AB|6062736a3a741a8a04d3f705bc91a7b1b65202e5
+ccu.img;AB|96eb20c1631c427c0f1ef99f386cf6fcffc90f4c
+connsys_bt.img;AB|7ee4f8f4a0c891a71a858de8fa1401f57caa7b13
+connsys_gnss.img;AB|6b52dcdbe9930ff88945f57b7d18e4e9579ced4a
+connsys_wifi.img;AB|90010fa8524ebccafd7d172c2aafa75a9bfb42b1
+dpm.img;AB|2e18c88783e315dd86fd17310c715804c3e6ad96
+gpueb.img;AB|ceeb9057c0601c2170046b3fc410e85931e466b6
+gz.img;AB|8a3b24a66e12133d1abe438cc999fe5a5c35458c
+logo.img|cca626bc292074bab7368801bbda8fe91e782de8
+lk.img;AB|9a05ac3467dede85ecd6e4c5bbffaf55f0e3166b
+mcf_ota.img;AB|680c36da28cbefeb809fb571305beb21eea402cc
+mcupm.img;AB|860c4d57eadbf5a8bb1a800296049c3f0cb9409b
+modem.img;AB|230a11ee2e13ae24a0994383076c51d9b89f5034
+mvpu_algo.img;AB|abf09b96d7d8e30ab98bebc80ca04c9051a1ea58
+pi_img.img;AB|338b406fef0fa84f6275e87f6f6a4fe8c7ca75c3
+preloader_raw.img;AB|2e257200e86cbc2fa4c954d2d906f067eaaa15aa
+scp.img;AB|32d7e1923e28c6fdbb39cd608d873c3e00e82c96
+spmfw.img;AB|21b4a62d1bee3faa0e73bfd096ff7cdb521e23be
+sspm.img;AB|735c68d1317f1a2c583e663587f279d86357df14
+tee.img;AB|cea677bd6a1143e564248bf9cd2d7e833ad99a1a
+vcp.img;AB|04866ec5dc24491799850053f78752e2f720bf4c

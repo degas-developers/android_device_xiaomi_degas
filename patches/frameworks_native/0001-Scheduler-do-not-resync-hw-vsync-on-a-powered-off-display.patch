@@ -1,0 +1,20 @@
+diff --git a/services/surfaceflinger/Scheduler/Scheduler.cpp b/services/surfaceflinger/Scheduler/Scheduler.cpp
+index 18e6fccddf..5c04e1f28e 100644
+--- a/services/surfaceflinger/Scheduler/Scheduler.cpp
++++ b/services/surfaceflinger/Scheduler/Scheduler.cpp
+@@ -861,6 +861,15 @@ void Scheduler::resyncToHardwareVsyncLocked(PhysicalDisplayId id, bool allowToEn
+     }
+     const Display& display = *displayOpt;
+ 
++    // A powered-off display emits no hardware VSYNC, so resyncing here would clear
++    // the Disallowed state and start a period confirmation that can never complete,
++    // leaving SurfaceFlinger spinning until the display powers on again. The loop in
++    // resyncToHardwareVsync() already skips powered-off displays; the direct callers
++    // in SurfaceFlinger (notably the mode-change path) do not, so guard it here.
++    if (display.powerMode == hal::PowerMode::OFF) {
++        return;
++    }
++
+     if (display.schedulePtr->isHardwareVsyncAllowed(allowToEnable)) {
+         if (!modePtr) {
+             modePtr = display.selectorPtr->getActiveMode().modePtr.get();

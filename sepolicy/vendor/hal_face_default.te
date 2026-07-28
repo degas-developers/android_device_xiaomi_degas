@@ -12,5 +12,9 @@ allow hal_face_default face_vendor_data_file:file create_file_perms;
 # may touch camera_device). Left out deliberately - add whatever the runtime
 # denials actually ask for instead of guessing.
 
-# TEE-backed template storage
+# TEE-backed template storage. The node mifaced actually opens is /dev/tee0,
+# labelled mitee_client_device (same as hal_mlipay_default) - without this the
+# HAL takes SIGSEGV in its faceWorkBMF thread on every start, proven by the
+# crash disappearing under setenforce 0.
 allow hal_face_default tee_device:chr_file rw_file_perms;
+allow hal_face_default mitee_client_device:chr_file rw_file_perms;

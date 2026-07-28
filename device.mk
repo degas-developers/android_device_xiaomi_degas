@@ -129,13 +129,6 @@ PRODUCT_VENDOR_LINKER_CONFIG_FRAGMENTS += \
 PRODUCT_PACKAGES += \
     fastbootd
 
-# Wifi resource RROs. These are shipped here rather than through
-# proprietary-files.txt because extract-utils has no packaging rule for
-# vendor/overlay and a listed entry makes ./extract-files.py abort outright.
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/prebuilt/overlay/WifiResOverlay.apk:$(TARGET_COPY_OUT_VENDOR)/overlay/WifiResOverlay/WifiResOverlay.apk \
-    $(LOCAL_PATH)/prebuilt/overlay/WifiResMainlineOverlay.apk:$(TARGET_COPY_OUT_VENDOR)/overlay/WifiResMainlineOverlay/WifiResMainlineOverlay.apk
-
 # Face unlock: libmiface links libcamera2ndk_vendor, whose AIDL dependencies live in
 # an APEX on stock and are not extractable, so build it from source instead.
 PRODUCT_PACKAGES += \

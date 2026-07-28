@@ -7,8 +7,10 @@
 allow hal_face_default face_vendor_data_file:dir rw_dir_perms;
 allow hal_face_default face_vendor_data_file:file create_file_perms;
 
-# libmiface links libcamera2ndk_vendor and captures through the camera service
-hal_client_domain(hal_face_default, hal_camera)
+# NOTE: libmiface links libcamera2ndk_vendor, but hal_client_domain(.., hal_camera)
+# trips a neverallow in system/sepolicy/private/hal_camera.te (only camera domains
+# may touch camera_device). Left out deliberately - add whatever the runtime
+# denials actually ask for instead of guessing.
 
 # TEE-backed template storage
 allow hal_face_default tee_device:chr_file rw_file_perms;

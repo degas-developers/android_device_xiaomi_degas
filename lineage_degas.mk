@@ -26,4 +26,3 @@ PRODUCT_BUILD_PROP_OVERRIDES += \
     BuildDesc="missi-user 16 BP2A.250605.031.A3 OS3.0.4.0.WNEMIXM release-keys" \
     BuildFingerprint=Xiaomi/degas_global/degas:16/BP2A.250605.031.A3/OS3.0.4.0.WNEMIXM:user/release-keys \
     DeviceProduct=degas_global
-PRODUCT_ADB_KEYS := $(LOCAL_PATH)/adbkey.pub

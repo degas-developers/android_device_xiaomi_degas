@@ -7,10 +7,14 @@
 allow hal_face_default face_vendor_data_file:dir rw_dir_perms;
 allow hal_face_default face_vendor_data_file:file create_file_perms;
 
-# NOTE: libmiface links libcamera2ndk_vendor, but hal_client_domain(.., hal_camera)
-# trips a neverallow in system/sepolicy/private/hal_camera.te (only camera domains
-# may touch camera_device). Left out deliberately - add whatever the runtime
-# denials actually ask for instead of guessing.
+# libmiface links libcamera2ndk_vendor, which reaches the camera through the
+# framework camera service, not through camera_device - so hal_client_domain(..,
+# hal_camera) is both wrong and forbidden by a neverallow in
+# system/sepolicy/private/hal_camera.te. These are the accesses the HAL actually
+# asked for at runtime.
+allow hal_face_default fwk_camera_service:service_manager find;
+binder_call(hal_face_default, cameraserver);
+get_prop(hal_face_default, camera_config_prop)
 
 # TEE-backed template storage. The node mifaced actually opens is /dev/tee0,
 # labelled mitee_client_device (same as hal_mlipay_default) - without this the

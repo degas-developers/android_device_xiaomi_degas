@@ -19,6 +19,11 @@
         <fqname>@4.0::IMapper/default</fqname>
     </hal>
     <hal format="aidl">
+        <name>android.hardware.biometrics.face</name>
+        <version>3</version>
+        <fqname>IFace/default</fqname>
+    </hal>
+    <hal format="aidl">
         <name>android.hardware.radio.config</name>
         <version>2</version>
         <fqname>IRadioConfig/default</fqname>

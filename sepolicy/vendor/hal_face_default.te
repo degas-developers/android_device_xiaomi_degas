@@ -1,0 +1,14 @@
+# Xiaomi's mifaced serves the standard android.hardware.biometrics.face AIDL, so it
+# runs in AOSP's hal_face_default domain (see file_contexts). Stock labels it with a
+# private hal_miface_default type; reusing the AOSP domain gets the whole face HAL
+# policy for free and only the Xiaomi-specific accesses have to be added here.
+
+# init.miface.rc creates /data/vendor/face
+allow hal_face_default face_vendor_data_file:dir rw_dir_perms;
+allow hal_face_default face_vendor_data_file:file create_file_perms;
+
+# libmiface links libcamera2ndk_vendor and captures through the camera service
+hal_client_domain(hal_face_default, hal_camera)
+
+# TEE-backed template storage
+allow hal_face_default tee_device:chr_file rw_file_perms;

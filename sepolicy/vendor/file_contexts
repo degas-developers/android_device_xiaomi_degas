@@ -27,6 +27,7 @@
 
 # Mlipay
 /(odm|vendor/odm|system/vendor)/bin/mlipayd_mitee                                                      u:object_r:hal_mlipay_default_exec:s0
+/(vendor|odm)/bin/hw/mifaced                                                                             u:object_r:hal_face_default_exec:s0
 
 # Mtdservice
 /(odm|vendor/odm|system/vendor)/bin/mtd_mitee                                                          u:object_r:hal_mtdservice_default_exec:s0

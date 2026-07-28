@@ -941,6 +941,15 @@ odm/lib64/hw/fingerprint.goodix_fod.so:odm/lib64/hw/fingerprint.goodix_fod.defau
 odm/lib64/libgf_hal.so
 vendor/lib64/vendor.xiaomi.hardware.fx.tunnel-V1-ndk.so
 
+# Face unlock (Xiaomi mifaced, android.hardware.biometrics.face AIDL v3)
+vendor/bin/hw/mifaced
+vendor/lib64/libmiface.so
+vendor/lib64/android.hardware.biometrics.common-V3-ndk.so
+vendor/lib64/android.hardware.biometrics.face-V3-ndk.so
+vendor/etc/init/miface.rc
+vendor/etc/init/miface_start_with_system_boot.rc
+vendor/etc/permissions/android.hardware.biometrics.face.xml
+
 # Gatekeeper
 vendor/bin/hw/android.hardware.gatekeeper-service.mitee
 vendor/etc/init/android.hardware.gatekeeper-service.mitee.rc
@@ -3119,5 +3128,3 @@ vendor/lib64/vendor.xiaomi.hardware.quickcamera-V1-ndk_platform.so
 vendor/lib64/vendor.xiaomi.hw.touchfeature-V1-ndk.so
 
 # Stock Wifi resource RRO overlays (prebuilt, keep signature)
-vendor/overlay/WifiResMainlineOverlay/WifiResMainlineOverlay.apk;PRESIGNED
-vendor/overlay/WifiResOverlay/WifiResOverlay.apk;PRESIGNED

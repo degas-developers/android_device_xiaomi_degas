@@ -125,6 +125,13 @@ blob_fixups: blob_fixups_user_type = {
     'vendor/lib64/libcameraopt.so': blob_fixup()
         .add_needed('libprocessgroup_shim.so'),
 
+    # libmiface carries a vestigial DT_NEEDED on libdumpstateutil, which is a
+    # /system library the vendor namespace cannot reach. It imports ZERO symbols
+    # from it (checked: 0 of its 33 exports are undefined in libmiface), so the
+    # entry is simply dropped instead of shipping a system lib into /vendor.
+    'vendor/lib64/libmiface.so': blob_fixup()
+        .remove_needed('libdumpstateutil.so'),
+
     # remosaic_process_gain_set exporter must be loaded first (BIND_NOW)
     'odm/lib64/libmiremosaic.so': blob_fixup()
         .add_needed('libremosaic_wrapper.so'),

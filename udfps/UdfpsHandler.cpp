@@ -53,6 +53,11 @@
  */
 #define HEAL_REFRESH_RATE_PROP "vendor.degas.display.heal_refresh_rate"
 
+// How long the panel is given to enter LHBM before readiness is signalled, and
+// how long after a finger-up the off is re-asserted (must outlast the arm).
+#define FOD_ARM_DELAY_US (80 * 1000)
+#define FOD_OFF_REASSERT_US (150 * 1000)
+
 using ::aidl::android::hardware::biometrics::fingerprint::AcquiredInfo;
 
 namespace {
@@ -175,6 +180,9 @@ class XiaomiDegasUdfpsHandler : public UdfpsHandler {
     void onFingerDown(uint32_t x, uint32_t y, float /*minor*/, float /*major*/) {
         LOG(DEBUG) << __func__ << "x: " << x << ", y: " << y;
 
+        uint64_t generation = ++mFodGeneration;
+        mFingerDown = true;
+
         mDevice->extCmd(mDevice, COMMAND_FOD_PRESS_STATUS, PARAM_FOD_PRESSED);
 
         // Request HBM
@@ -189,14 +197,29 @@ class XiaomiDegasUdfpsHandler : public UdfpsHandler {
 
         if (mEventThreadBroken) {
             // degas: FOD UI-ready disp events never arrive — give the panel a
-            // moment to enter LHBM, then signal readiness to the sensor
-            usleep(80 * 1000);
-            mDevice->extCmd(mDevice, COMMAND_NIT, TARGET_BRIGHTNESS_1000NIT);
+            // moment to enter LHBM, then signal readiness to the sensor.
+            //
+            // This must NOT block the caller and must be abandoned if the press
+            // ends first: a stray finger-down can land right after a successful
+            // auth (measured: 2 ms before the overlay teardown starts), and a
+            // turn-on delivered after teardown has nobody left to turn it off,
+            // so the spot stays lit forever.
+            std::thread([this, generation]() {
+                usleep(FOD_ARM_DELAY_US);
+                if (mFodGeneration != generation) {
+                    LOG(DEBUG) << "stale FOD arm, not lighting LHBM";
+                    return;
+                }
+                mDevice->extCmd(mDevice, COMMAND_NIT, TARGET_BRIGHTNESS_1000NIT);
+            }).detach();
         }
     }
 
     void onFingerUp() {
         LOG(DEBUG) << __func__;
+
+        uint64_t generation = ++mFodGeneration;
+        bool wasDown = mFingerDown.exchange(false);
 
         mDevice->extCmd(mDevice, COMMAND_FOD_PRESS_STATUS, PARAM_FOD_RELEASED);
 
@@ -216,6 +239,26 @@ class XiaomiDegasUdfpsHandler : public UdfpsHandler {
 
         // The panel is now stuck at 120 Hz behind DRM's back; ask for a mode-set.
         android::base::SetProperty(HEAL_REFRESH_RATE_PROP, std::to_string(++mHealTick));
+
+        // Belt and braces for the stuck-spot race above: anything that lit LHBM
+        // around this teardown (ours or the vendor HAL's own timing) is undone
+        // once the arm window has passed. Skipped if a new press started since.
+        if (wasDown) {
+            std::thread([this, generation]() {
+                usleep(FOD_OFF_REASSERT_US);
+                if (mFodGeneration != generation) {
+                    return;
+                }
+                struct disp_local_hbm_req displayLhbmRequest = {
+                        .base = displayBasePrimary,
+                        .local_hbm_value = LHBM_TARGET_BRIGHTNESS_OFF_FINGER_UP,
+                };
+                ioctl(disp_fd_.get(), MI_DISP_IOCTL_SET_LOCAL_HBM, &displayLhbmRequest);
+                if (mEventThreadBroken) {
+                    mDevice->extCmd(mDevice, COMMAND_NIT, TARGET_BRIGHTNESS_OFF);
+                }
+            }).detach();
+        }
     }
 
     void onAcquired(int32_t result, int32_t vendorCode) {
@@ -253,6 +296,10 @@ class XiaomiDegasUdfpsHandler : public UdfpsHandler {
     android::base::unique_fd disp_fd_;
     std::atomic<bool> mEventThreadBroken{false};
     std::atomic<uint64_t> mHealTick{0};
+    // Bumped by every finger-down/up so a delayed action can tell whether the
+    // press it belongs to is still the current one.
+    std::atomic<uint64_t> mFodGeneration{0};
+    std::atomic<bool> mFingerDown{false};
 
     void setFingerDown(bool pressed) {
         int buf[MAX_BUF_SIZE] = {MI_DISP_PRIMARY, Touch_Fod_Enable, pressed ? 1 : 0};

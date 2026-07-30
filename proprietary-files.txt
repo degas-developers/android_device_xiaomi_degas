@@ -3109,6 +3109,13 @@ vendor/lib64/libmicamera_aidl_device.so
 vendor/lib64/libmicamera_aidl_provider.so
 vendor/lib64/libmicamera_aidl_utils.so
 vendor/lib64/libmicamera_hal_core.so
+odm/lib64/libMiVideoFilter.so
+vendor/lib64/camera/libzslselectorpool.so
+vendor/lib64/libmcve.so
+vendor/lib64/libmialgo_aio_seg.so
+vendor/lib64/libmialgo_utils.so
+vendor/lib64/libmialgoengine_custom.so
+vendor/lib64/libecoengine.so
 vendor/lib64/libmtkcam_hal_custom_state.so
 vendor/lib64/libmtkcam_hal_custom_utils.so
 vendor/lib64/libofflinedebugdata.so

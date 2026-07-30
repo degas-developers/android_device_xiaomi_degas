@@ -779,6 +779,7 @@ vendor/etc/camera/mimotion_f5b.bin
 vendor/etc/camera/mimotion_f5w.bin
 
 # Camera (SQLiteModule database)
+vendor/bin/crossbuild/DataSet/SQLiteModule/db/port_select.db
 odm/bin/crossbuild/DataSet/SQLiteModule/db/ae/mt6897/ParameterDB_ae.db;SYMLINK=odm/bin/crossbuild/DataSet/SQLiteModule/db/ae/ParameterDB_ae.db;MAKE_COPY_RULE_ONLY
 odm/bin/crossbuild/DataSet/SQLiteModule/db/af/mt6897/ParameterDB_af.db;SYMLINK=odm/bin/crossbuild/DataSet/SQLiteModule/db/af/ParameterDB_af.db;MAKE_COPY_RULE_ONLY
 odm/bin/crossbuild/DataSet/SQLiteModule/db/awb/mt6897/ParameterDB_awb.db;SYMLINK=odm/bin/crossbuild/DataSet/SQLiteModule/db/awb/ParameterDB_awb.db;MAKE_COPY_RULE_ONLY

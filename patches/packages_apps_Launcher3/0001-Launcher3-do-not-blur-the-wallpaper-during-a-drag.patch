@@ -1,0 +1,34 @@
+From: Mikhail Mlhcnn <mikhail@advnirr.org>
+Subject: [PATCH] Launcher3: do not blur the wallpaper during a drag
+
+Dragging a widget or an icon puts the launcher in SPRING_LOADED, which asks
+DepthController for DEPTH_15_PERCENT. BaseDepthController.mapDepthToBlur()
+clamps depth to 0..0.3, so 0.15 becomes half of max_depth_blur_radius_enhanced
+(30dp -> 90px at density 3.0) = a 45px background blur.
+
+A non-zero background blur radius forces client composition: SurfaceFlinger has
+to read what is under the window, blur it and compose on the GPU. Measured on
+degas (144Hz, 6.94ms budget): clientCompositionFrames 98.5%,
+averageRenderEngineTiming 4.7-5.0ms, SF at ~260% of a core, and presentToPresent
+outliers of 200/400/1000ms - the stalls the user reports while placing a widget.
+Janky frames 57.4% with the blur, 1.03% without; launcher p50 13ms -> 5ms.
+
+Only the drag state is zeroed. All-apps, overview and hint keep their own depth
+values, so the blur users actually look at is untouched.
+
+diff --git a/src/com/android/launcher3/states/SpringLoadedState.java b/src/com/android/launcher3/states/SpringLoadedState.java
+index 6830cf96a3..a726539d2b 100644
+--- a/src/com/android/launcher3/states/SpringLoadedState.java
++++ b/src/com/android/launcher3/states/SpringLoadedState.java
+@@ -65,7 +65,10 @@ public class SpringLoadedState extends LauncherState {
+
+     @Override
+     protected float getDepthUnchecked(Context context) {
+-        return DEPTH_15_PERCENT;
++        // Blurring the wallpaper behind a drag forces SurfaceFlinger to composite the
++        // launcher window and the wallpaper on the GPU, which does not fit the 6.94ms
++        // budget at 144Hz. All-apps and overview keep their blur.
++        return 0f;
+     }
+
+     @Override

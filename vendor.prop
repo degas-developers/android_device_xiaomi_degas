@@ -236,6 +236,7 @@ vendor.mtk.vdec.decode.error.handle.mode=1
 vendor.mtk.vdec.waitkeyframeforplay=9
 
 # Neural Networks
+ro.vendor.mtk_mvpu_support=1
 ro.vendor.mtk_mvpu_security_support=0
 ro.vendor.mtk_nn.option=A,B,C,D,E,F,G,Z
 ro.vendor.mtk_nn_baseline_support=1

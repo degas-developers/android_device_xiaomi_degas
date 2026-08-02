@@ -20,6 +20,16 @@ on post-fs-data
     # spins with the feature off just the same.
     write /mnt/vendor/persist/sensors/collisionData.txt ""
 
+    # The boot control HAL needs to open /dev/ufs-bsg0 to switch the active slot,
+    # and it runs as root while the node comes up system:system 0660 -- see the
+    # rule in ueventd.xiaomi.rc for the full story. That rule is correct (a manual
+    # `echo add > /sys/class/bsg/ufs-bsg0/uevent` does flip the owner to root) but
+    # it does not fire at boot: the node already exists by the time ueventd applies
+    # our rules, and it does not re-own devices it did not create. So set it here
+    # as well. The HAL only touches the node during an update, long after this.
+    chown root system /dev/ufs-bsg0
+    chmod 0660 /dev/ufs-bsg0
+
     # NFC
     mkdir /data/vendor/nfc 0770 nfc nfc
     chmod 0660 /dev/nq-nci

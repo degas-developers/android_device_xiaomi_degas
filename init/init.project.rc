@@ -1,4 +1,35 @@
 on post-fs-data
+    # Xiaomi's collision telemetry (sensor-dfx-m18-collision) appends one record
+    # per detected drop to this file, and citsensorservice parses the whole thing
+    # into memory when it starts. On a tester's phone the writer was emitting
+    # EMPTY lines instead of records until the file reached 27713536 bytes --
+    # 27.7 million newlines and not one printable character -- at which point the
+    # service's mCollision thread burned 100% of a core forever: 17.7 hours of CPU
+    # in a single boot, SoC at 90 C. Emptying the file dropped it to 0.0% and the
+    # SoC to 50 C within seconds. Verified on hardware 2026-08-02.
+    #
+    # Nothing on LineageOS reads these records -- they exist for Xiaomi's warranty
+    # diagnostics -- so truncating them every boot costs nothing and bounds the
+    # damage to one boot's worth of growth.
+    #
+    # This has to ship rather than be a support instruction: /mnt/vendor/persist
+    # survives both reflashing and a factory reset, so an affected phone can never
+    # recover on its own.
+    #
+    # persist.vendor.debug.collision.dfx=false does NOT help -- tested, the thread
+    # spins with the feature off just the same.
+    write /mnt/vendor/persist/sensors/collisionData.txt ""
+
+    # The boot control HAL needs to open /dev/ufs-bsg0 to switch the active slot,
+    # and it runs as root while the node comes up system:system 0660 -- see the
+    # rule in ueventd.xiaomi.rc for the full story. That rule is correct (a manual
+    # `echo add > /sys/class/bsg/ufs-bsg0/uevent` does flip the owner to root) but
+    # it does not fire at boot: the node already exists by the time ueventd applies
+    # our rules, and it does not re-own devices it did not create. So set it here
+    # as well. The HAL only touches the node during an update, long after this.
+    chown root system /dev/ufs-bsg0
+    chmod 0660 /dev/ufs-bsg0
+
     # NFC
     mkdir /data/vendor/nfc 0770 nfc nfc
     chmod 0660 /dev/nq-nci

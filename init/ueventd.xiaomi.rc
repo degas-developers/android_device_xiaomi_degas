@@ -9,3 +9,23 @@ subsystem mi_display
 # nodes stay root-owned 0644 and the HAL fails every throttling request with
 # "Failed to write cdev: devfreq-13000000.mali to N: Permission denied".
 /sys/devices/virtual/thermal/cooling_device*   cur_state   0664   system   system
+
+# The boot control HAL sends raw UFS commands through this node to switch the
+# active slot. It runs as root, but the node defaults to system:system 0660 --
+# root is neither the owner nor in the group, and "other" has nothing, so it can
+# only open it with CAP_DAC_OVERRIDE. The kernel would grant that (the process
+# has the full capability set) but SELinux does not, and there is no rule for it
+# in the stock policy either. The result:
+#
+#   avc: denied { dac_override } scontext=u:r:hal_bootctl_default:s0 permissive=0
+#   SetActiveBootSlot(0) failed Status(-8): '-2: Operation failed'
+#   Postinstall action failed. ErrorCode::kPostinstallRunnerError
+#
+# i.e. the LineageOS Updater reports "Update failed" at 100% even though the
+# payload is fully written -- and, confusingly, the update still applies,
+# because the BCB write lands before the step that needs the node.
+#
+# Making root the owner is enough and costs nothing: the only other user of the
+# node is tee-supplicant, which runs as system and stays in the group.
+# Verified on hardware 2026-08-02.
+/dev/ufs-bsg0                                             0660   root     system

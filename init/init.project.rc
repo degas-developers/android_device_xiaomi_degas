@@ -1,4 +1,25 @@
 on post-fs-data
+    # Xiaomi's collision telemetry (sensor-dfx-m18-collision) appends one record
+    # per detected drop to this file, and citsensorservice parses the whole thing
+    # into memory when it starts. On a tester's phone the writer was emitting
+    # EMPTY lines instead of records until the file reached 27713536 bytes --
+    # 27.7 million newlines and not one printable character -- at which point the
+    # service's mCollision thread burned 100% of a core forever: 17.7 hours of CPU
+    # in a single boot, SoC at 90 C. Emptying the file dropped it to 0.0% and the
+    # SoC to 50 C within seconds. Verified on hardware 2026-08-02.
+    #
+    # Nothing on LineageOS reads these records -- they exist for Xiaomi's warranty
+    # diagnostics -- so truncating them every boot costs nothing and bounds the
+    # damage to one boot's worth of growth.
+    #
+    # This has to ship rather than be a support instruction: /mnt/vendor/persist
+    # survives both reflashing and a factory reset, so an affected phone can never
+    # recover on its own.
+    #
+    # persist.vendor.debug.collision.dfx=false does NOT help -- tested, the thread
+    # spins with the feature off just the same.
+    write /mnt/vendor/persist/sensors/collisionData.txt ""
+
     # NFC
     mkdir /data/vendor/nfc 0770 nfc nfc
     chmod 0660 /dev/nq-nci

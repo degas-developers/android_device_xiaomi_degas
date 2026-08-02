@@ -7,3 +7,9 @@ rw_dir_file(vendor_init, sysfs_ged)
 # init.project.rc lives in /vendor, so vendor_init is what runs its commands.
 # It writes thermal_message/sconfig to pick mi_thermald's scenario.
 allow vendor_init sysfs_therm:file w_file_perms;
+
+# ...and it truncates the collision telemetry at post-fs-data, which otherwise
+# grows without bound and pins citsensorservice at 100% of a core. See the
+# comment on that line in init.project.rc.
+allow vendor_init persist_data_file:dir search;
+allow vendor_init persist_data_file:file { open write };

@@ -1,0 +1,53 @@
+From: degas device tree
+Subject: [PATCH] BatteryStats: ignore an implausible charge time from the health HAL
+
+computeChargeTimeRemaining() returns whatever the health HAL reports as
+chargeTimeToFullNowSeconds the moment it is not negative, and only falls back to
+the estimate measured from the charge steps when the HAL declines to answer.
+That trusts a number the HAL does not compute: MediaTeks health service passes
+/sys/class/power_supply/battery/time_to_full_now straight through.
+
+On degas (Xiaomi 14T, mt6897) that node is wrong by two and a half orders of
+magnitude. Measured on hardware while charging at 67 W: the battery takes
+2030 mA (current_now -2031000, charge_counter climbing 2057 mA, bms/av_current
+-2033) and has 3.6 Ah to go, i.e. under two hours - and the node reports
+2934120 seconds, falling by 35400 seconds per percent, which is the arithmetic
+of a 4.4 mA charge. Settings duly tells the user the phone will be full in
+36 days.
+
+The step tracker in this very class had the right answer all along: 74 s per
+percent, about 1 h 40 min from 18 %. So cap what the HAL is allowed to claim and
+let the measured estimate take over past that.
+
+diff --git a/services/core/java/com/android/server/power/stats/BatteryStatsImpl.java b/services/core/java/com/android/server/power/stats/BatteryStatsImpl.java
+index 574abe634823..dfd34d8b0647 100644
+--- a/services/core/java/com/android/server/power/stats/BatteryStatsImpl.java
++++ b/services/core/java/com/android/server/power/stats/BatteryStatsImpl.java
+@@ -13995,13 +13995,26 @@ public class BatteryStatsImpl extends BatteryStats {
+         return mDailyDischargeStepTracker;
+     }
+ 
++    /**
++     * An upper bound on a charge time estimate that is worth believing. The health
++     * HAL hands this figure straight through from the charger driver, and a driver
++     * that gets it wrong is not rare: on some MediaTek gauges
++     * /sys/class/power_supply/battery/time_to_full_now is computed from a current
++     * of a few milliamps while the battery is taking two amps, which reports a
++     * phone on a 67 W charger as "full in 36 days". Past this limit the estimate
++     * measured from the charge steps below is used instead - it is derived from
++     * levels this class saw itself, so it cannot be off by orders of magnitude.
++     */
++    private static final long MAX_PLAUSIBLE_CHARGE_TIME_SECONDS = 12 * 60 * 60;
++
+     @Override
+     public long computeChargeTimeRemaining(long curTime) {
+         if (mOnBattery) {
+             // Not yet working.
+             return -1;
+         }
+-        if (mBatteryTimeToFullSeconds >= 0) {
++        if (mBatteryTimeToFullSeconds >= 0
++                && mBatteryTimeToFullSeconds <= MAX_PLAUSIBLE_CHARGE_TIME_SECONDS) {
+             return mBatteryTimeToFullSeconds * (1000 * 1000); // s to us
+         }
+         // Else use algorithmic approach

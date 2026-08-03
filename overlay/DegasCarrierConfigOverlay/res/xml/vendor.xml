@@ -330,6 +330,7 @@
   <!-- Ukraine Kyivstar-->
   <carrier_config mcc="255" mnc="03">
     <boolean name="carrier_volte_available_bool" value="true" />
+    <boolean name="carrier_wfc_ims_available_bool" value="true" />
   </carrier_config>
   <!-- Belarus A1-->
   <carrier_config mcc="257" mnc="01">

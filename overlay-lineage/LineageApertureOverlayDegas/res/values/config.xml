@@ -8,7 +8,15 @@
     <bool name="config_enableAuxCameras">true</bool>
 
     <!--
-         No config_additionalVideoConfigurations, on purpose.
+         The array has to stay declared even while it is empty: Aperture reads it
+         out of the overlay package by name at startup, and with the overlay
+         applied but the name gone the lookup returns id 0 and
+         ApertureApplication dies before it can draw anything
+         (Resources$NotFoundException in OverlaysRepository.getStringArray).
+         Learned the hard way 2026-08-07 - removing it stopped the camera from
+         opening at all.
+
+         It is empty on purpose.
 
          The cameras do advertise 60 fps behind MediaTek's own streaming mode -
          com.mediatek.streamingfeature.availableHfpsMaxResolutions reads
@@ -28,4 +36,5 @@
          app, and media_codecs_performance measures the HEVC encoder at 13-29 fps
          on 3840x2160, so that one is not worth chasing at all.
     -->
+    <string-array name="config_additionalVideoConfigurations" />
 </resources>

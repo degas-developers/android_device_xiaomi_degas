@@ -23,11 +23,18 @@
          The EIS variant of that list is identical, so stabilisation stays
          available at 60. Asking for the mode itself is the app's job, see
          VendorProcessing.setVendorVideoProcessing.
+
+         2160p60 is deliberately NOT offered even though camera 0 and camera 2
+         advertise it. Measured on hardware 2026-08-07: at UHD 60 the session
+         takes camerahalserver down hard enough that Aperture is killed with it,
+         while UHD 30 and FHD 60 both survive. The encoder agrees it is a stretch
+         - media_codecs_performance measures the HEVC encoder at 13-29 fps on
+         3840x2160, and the only 4K CamcorderProfile is 30 fps.
     -->
     <string-array name="config_additionalVideoConfigurations">
-        <item>0</item> <item>hd|fhd|uhd</item> <item>60</item>
+        <item>0</item> <item>hd|fhd</item> <item>60</item>
         <item>1</item> <item>hd|fhd</item> <item>60</item>
-        <item>2</item> <item>hd|fhd|uhd</item> <item>60</item>
+        <item>2</item> <item>hd|fhd</item> <item>60</item>
         <item>3</item> <item>hd|fhd</item> <item>60</item>
     </string-array>
 </resources>

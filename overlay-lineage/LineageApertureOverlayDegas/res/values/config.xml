@@ -6,4 +6,28 @@
 <resources>
     <!-- Enable auxiliary cameras selector. -->
     <bool name="config_enableAuxCameras">true</bool>
+
+    <!--
+         60 fps recording, which the cameras do not advertise the ordinary way:
+         android.control.aeAvailableTargetFpsRanges stops at [30, 30] and the
+         high speed configurations start at 120, which is slow motion. The rate
+         lives behind MediaTek's own streaming mode instead, and its
+         com.mediatek.streamingfeature.availableHfpsMaxResolutions is what the
+         entries below follow, one camera at a time:
+
+           camera 0 (main, 5.35mm)      1920x1080@60 and 3840x2160@60
+           camera 1 (front, 3.0mm)      1920x1080@60
+           camera 2 (telephoto, 7.1mm)  1920x1080@60 and 3840x2160@60
+           camera 3 (ultra wide, 1.91mm) 1920x1080@60
+
+         The EIS variant of that list is identical, so stabilisation stays
+         available at 60. Asking for the mode itself is the app's job, see
+         VendorProcessing.setVendorVideoProcessing.
+    -->
+    <string-array name="config_additionalVideoConfigurations">
+        <item>0</item> <item>hd|fhd|uhd</item> <item>60</item>
+        <item>1</item> <item>hd|fhd</item> <item>60</item>
+        <item>2</item> <item>hd|fhd|uhd</item> <item>60</item>
+        <item>3</item> <item>hd|fhd</item> <item>60</item>
+    </string-array>
 </resources>

@@ -1,0 +1,32 @@
+From 180c3d391241490e942cce3d355fea955c4d906d Mon Sep 17 00:00:00 2001
+From: degas <degas@local>
+Date: Fri, 7 Aug 2026 19:46:09 +0300
+Subject: [PATCH] Enable the SystemUI flashlight strength slider
+
+The QS flashlight tile can open a dialog with a brightness slider, but the
+code path is fused off: com.android.systemui.flashlight_strength defaults to
+disabled and is read-only, so no runtime override can reach it.
+
+degas reports android.flash.info.strengthMaximumLevel = 100 on both
+flash-bearing cameras, which is what CameraManager.turnOnTorchWithStrengthLevel
+needs, so the feature has something to talk to.
+---
+ .../flashlight_strength_flag_values.textproto               | 6 ++++++
+ 1 file changed, 6 insertions(+)
+ create mode 100644 release/aconfig/bp4a/com.android.systemui/flashlight_strength_flag_values.textproto
+
+diff --git a/release/aconfig/bp4a/com.android.systemui/flashlight_strength_flag_values.textproto b/release/aconfig/bp4a/com.android.systemui/flashlight_strength_flag_values.textproto
+new file mode 100644
+index 0000000..1ddd7bc
+--- /dev/null
++++ b/release/aconfig/bp4a/com.android.systemui/flashlight_strength_flag_values.textproto
+@@ -0,0 +1,6 @@
++flag_value {
++  package: "com.android.systemui"
++  name: "flashlight_strength"
++  state: ENABLED
++  permission: READ_ONLY
++}
+-- 
+2.55.0
+

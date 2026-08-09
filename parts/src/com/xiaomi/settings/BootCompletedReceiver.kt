@@ -16,6 +16,7 @@ import android.view.Display.HdrCapabilities;
 import com.xiaomi.settings.display.ColorService
 import com.xiaomi.settings.display.AodService
 import com.xiaomi.settings.display.RefreshRateHealService
+import com.xiaomi.settings.telephony.ImsHealService
 
 class BootCompletedReceiver : BroadcastReceiver() {
 
@@ -40,6 +41,9 @@ class BootCompletedReceiver : BroadcastReceiver() {
     }
 
     private fun onBootCompleted(context: Context) {
+        // Telephony, not display: wait for the full boot rather than the locked
+        // one, so the subscription and the IMS stack are already up.
+        ImsHealService.startService(context)
     }
 
     private fun onLockedBootCompleted(context: Context) {

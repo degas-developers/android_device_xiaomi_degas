@@ -1,0 +1,4 @@
+# Charging control toggles /sys/class/power_supply/battery/input_suspend,
+# which genfs_contexts labels sysfs_batteryinfo.
+allow hal_lineage_health_default sysfs:dir search;
+rw_dir_file(hal_lineage_health_default, sysfs_batteryinfo)

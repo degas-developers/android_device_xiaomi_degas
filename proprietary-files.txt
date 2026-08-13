@@ -1402,10 +1402,29 @@ odm/lib64/libclient2slpi.notifier.so
 vendor/lib64/libhfmanagerwrapper.so
 vendor/lib64/vendor.xiaomi.sensor.citsensorservice-V1-ndk.so
 
-# Tether Offload
-vendor/bin/hw/tetheroffloadservice
-vendor/etc/init/android.hardware.tetheroffload-V1-service.rc
-vendor/etc/vintf/manifest/android.hardware.tetheroffload-V1-service.xml
+# Tether Offload - DELIBERATELY NOT SHIPPED, do not re-add.
+#
+# The vendor HAL mishandles a change of upstream interface. Android hands it
+# the new upstream and it answers
+#     setUpstreamParameters(, 0.0.0.0, 0.0.0.0, []) failed with
+#     IllegalArgumentException: Invalid interface name
+# and then keeps accounting against the *previous* ccmni while the current
+# upstream is a different one. Tethered traffic is then steered into a stale
+# path: UDP is lost outright, TCP survives only on retransmits (a DNS query
+# that takes 31 ms to the phone itself took 7.8 s through it), while ICMP -
+# which does not take the offload path - stays fine. Confirmed on a tester's
+# device 2026-08-10 and cured there by Settings.Global tether_offload_disabled.
+# Only reproducible when the modem switches PDN, which is why it never showed
+# up on the developer's own SIM.
+#
+# We drop the manifest entry too, not just the binary: with the HAL undeclared
+# OffloadController's waitForDeclaredService() returns immediately instead of
+# blocking. The AOSP BPF offload is untouched and still carries the traffic,
+# so this costs no measurable CPU.
+#
+# vendor/bin/hw/tetheroffloadservice
+# vendor/etc/init/android.hardware.tetheroffload-V1-service.rc
+# vendor/etc/vintf/manifest/android.hardware.tetheroffload-V1-service.xml
 
 # Touchscreen firmware
 

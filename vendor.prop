@@ -164,6 +164,22 @@ ro.vendor.arm.gralloc.shared_access_usage_flags=0x10000000
 ro.vendor.arm.gralloc.shared_access_usage_mask=0x50000000
 
 # Display (Picture Quality)
+# Bypass AAL. On bright light with battery saver on, the ambient-adaptive
+# luminance path sits on the frame path and the panel starts presenting every
+# 33 ms instead of 16 ms - 30 fps, ~230 of 234 frames missed, and occasionally
+# SurfaceFlinger wedges outright. Measured with presentToPresent: sunlight
+# (17-33 klux) + battery saver + the app drawer reproduces it every time, the
+# same 60 Hz without battery saver is clean, and CPU frequency, scheduling and
+# thermals were all ruled out on hardware.
+# AAL is doing nothing useful for us anyway - it reports Function flags = 0x0,
+# i.e. both ESS and DRE are off, because Xiaomi expects a MIUI system service to
+# set them ("get initfunction from xml, but not use") and there is none here. It
+# still reads the histogram of every frame. The one thing it does do with the
+# flags clear is raise the backlight in bright light, so with the bypass a
+# MANUAL brightness no longer boosts in the sun; auto-brightness is unaffected.
+# Read at PQ service start only: restarting the service instead leaves AAL stuck
+# in its sunlight state and washes the picture out.
+persist.vendor.sys.pq.disp.aal.bypass=1
 persist.vendor.sys.pq.disp.gamma.silky.brightness=0
 persist.vendor.sys.pq.disp_gamma_silky_brightness_by_hwc=0
 persist.vendor.sys.pq.mtk_disp_clarity_support=0

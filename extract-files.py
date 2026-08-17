@@ -61,7 +61,9 @@ blob_fixups: blob_fixups_user_type = {
     ('vendor/lib64/mt6897/libmtkcam_grallocutils.so',
      'vendor/lib64/libmtkcam_grallocutils_aidlv1helper.so'): blob_fixup()
         .replace_needed('android.hardware.graphics.allocator-V1-ndk.so', 'android.hardware.graphics.allocator-V2-ndk.so')
-        .replace_needed('android.hardware.graphics.common-V4-ndk.so', 'android.hardware.graphics.common-V7-ndk.so'),
+        .replace_needed('android.hardware.graphics.common-V4-ndk.so', 'android.hardware.graphics.common-V7-ndk.so')
+        # same libui unification as the camera blobs below
+        .replace_needed('libui.so', 'libui-v34.so'),
 
     ('odm/lib64/libTrueSight.so',
      'odm/lib64/libalLDC.so',
@@ -117,8 +119,25 @@ blob_fixups: blob_fixups_user_type = {
         .replace_needed('libtinyxml2.so', 'libtinyxml2-v34.so')
         .replace_needed('libui.so', 'libui-v34.so'),
 
-    # GraphicBufferMapper::lock/unlock (old libui API removed in A16)
-    'vendor/lib64/libmicamera_hal_core.so': blob_fixup()
+    # GraphicBufferMapper::lock/unlock (old libui API removed in A16).
+    #
+    # mihal drags the rest of the camera stack with it: everything below shares
+    # android::GraphicBuffer objects with it, and a process holding both libui
+    # and libui-v34 ends up with two layouts of that class under the same symbol
+    # names. The mismatch corrupts the heap in the vendor tract - caught with
+    # malloc_debug guard on 2026-08-16 (CORRUPTED REAR GUARD in
+    # RealtimePostProcessor::deleteRecord) and gone once these are relinked.
+    ('vendor/lib64/libmicamera_hal_core.so',
+     'vendor/lib64/libcom.xiaomi.ecoenginemonitor.so',
+     'vendor/lib64/libcom.xiaomi.grallocutils.so',
+     'vendor/lib64/libcom.xiaomi.pluginutils.so',
+     'vendor/lib64/libcom.xiaomi.sensorpolicy.so',
+     'vendor/lib64/libecoengine.so',
+     'vendor/lib64/libmialgoengine.so',
+     'vendor/lib64/mt6897/libmtkcam_thirdparty.customer.so',
+     'odm/lib64/camera/plugins/com.xiaomi.plugin.beautydeformation.so',
+     'odm/lib64/camera/plugins/com.xiaomi.plugin.filter.so',
+     'odm/lib64/camera/plugins/com.xiaomi.plugin.videofilter.so'): blob_fixup()
         .replace_needed('libui.so', 'libui-v34.so'),
 
     # plain-C SetTaskProfiles came from VNDK v34 libprocessgroup on stock

@@ -1,2 +1,8 @@
 get_prop({ appdomain -isolated_app_all }, vendor_fingerprint_prop)
 get_prop({ appdomain -isolated_app_all }, vendor_payment_security_prop)
+
+# The vendor camera tract hands the full-size still over a mock camera and
+# announces it over vendor.xiaomi.hardware.aidlbgservice, so the camera app has
+# to be able to look that service up. Stock MiuiCamera does the same from
+# priv-app; here it is Aperture, which carries the platform signature.
+allow platform_app vendor_hal_camera_bgservice:service_manager find;

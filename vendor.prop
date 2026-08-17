@@ -39,6 +39,10 @@ persist.vendor.camera3.pipeline.bufnum.min.low_ram.imgo=6
 persist.vendor.camera3.pipeline.bufnum.min.low_ram.lcso=6
 persist.vendor.camera3.pipeline.bufnum.min.low_ram.rrzo=6
 persist.vendor.camera3.pipeline.bufnum.min.low_ram.rsso=6
+# Turns on the vendor Camera Extensions (Night). Pointless without
+# vendor/etc/permissions/camera_extensions.xml and the impl jar, which ship
+# from the vendor repo; stock has it at vendor/build.prop:942.
+ro.camerax.extensions.enabled=true
 ro.camera.disableHeicUltraHDR=true
 ro.vendor.afbc.enable=3
 ro.vendor.camera.directfdyuv.support=1

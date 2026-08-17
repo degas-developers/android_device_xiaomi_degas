@@ -245,6 +245,7 @@ vendor/bin/hw/mt6897/camerahalserver;SYMLINK=vendor/bin/hw/camerahalserver
 vendor/etc/init/camerahalserver.rc
 vendor/etc/vintf/manifest/manifest_cameraprovider.xml
 vendor/etc/vintf/manifest/manifest_isphal.xml
+vendor/etc/vintf/manifest/vendor.xiaomi.hardware.aidlbgservice-service.xml
 vendor/etc/vintf/manifest/vendor.xiaomi.hardware.bgservice@1.0-service.xml
 vendor/firmware/lib3a.ccu
 vendor/firmware/lib3a.ccu_dummy

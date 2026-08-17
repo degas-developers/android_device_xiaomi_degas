@@ -3203,6 +3203,6 @@ vendor/etc/bh3.dla
 vendor/etc/genshin.dla
 vendor/etc/init/android.hardware.graphics.allocator-V1-service-mediatek.rc
 vendor/etc/permissions/camera_extensions.xml
-vendor/framework/androidx.camera.extensions.impl.jar
+vendor/framework/androidx.camera.extensions.impl.xiaomi.jar
 vendor/lib64/libcom.xiaomi.hwadapter.decoupleutil.so
 vendor/lib64/libcom.xiaomi.hwadapter.postprocinterface.so

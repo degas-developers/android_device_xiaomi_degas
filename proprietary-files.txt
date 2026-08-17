@@ -3163,3 +3163,46 @@ vendor/lib64/vendor.xiaomi.hardware.quickcamera-V1-ndk_platform.so
 vendor/lib64/vendor.xiaomi.hw.touchfeature-V1-ndk.so
 
 # Stock Wifi resource RRO overlays (prebuilt, keep signature)
+
+# MDLA models and the camera libs that reach them by hardcoded path:
+# invisible to every DT_NEEDED audit because they are opened by name at
+# runtime, so they were hand-pushed to the device and lost on every flash.
+# libHISCppAlgos needs the other two his_* to resolve newDISAlgo.
+# camera_extensions.xml + the impl jar are what makes the Night extension exist.
+odm/lib64/libHISCppAlgos.so
+odm/lib64/libhis_face_tracking.so
+odm/lib64/libhis_motion_tracker.so
+vendor/data/model/AIHDR.dla
+vendor/data/model/SR270*480.dla
+vendor/data/model/SR288*640.dla
+vendor/data/model/SR360*640.dla
+vendor/data/model/SR376*896.dla
+vendor/data/model/SR480*864.dla
+vendor/data/model/SR486*864.dla
+vendor/data/model/SR504*896.dla
+vendor/data/model/SR540*960.dla
+vendor/data/model/SR720*1280.dla
+vendor/data/model/mimemc_2x_1088p_pre.dla
+vendor/data/model/mimemc_2x_1088p_pro.dla
+vendor/data/model/mimemc_2x_1088p_q0.dla
+vendor/data/model/mimemc_2x_1088p_q1.dla
+vendor/data/model/mimemc_2x_736p_pre.dla
+vendor/data/model/mimemc_2x_736p_pro.dla
+vendor/data/model/mimemc_2x_736p_q0.dla
+vendor/data/model/mimemc_2x_736p_q1.dla
+vendor/data/model/mt6897_mc_1088x1920.dla
+vendor/data/model/mt6897_mc_736x1280.dla
+vendor/data/model/mt6897_me_1088x1920.dla
+vendor/data/model/mt6897_me_736x1280.dla
+vendor/data/model/mt6897_text_1088x1920.dla
+vendor/data/model/mt6897_text_736x1280.dla
+vendor/data/model/object_detection.dla
+vendor/data/model/x2_SR_dynamic.dla
+vendor/data/model/x3_SR_dynamic.dla
+vendor/etc/bh3.dla
+vendor/etc/genshin.dla
+vendor/etc/init/android.hardware.graphics.allocator-V1-service-mediatek.rc
+vendor/etc/permissions/camera_extensions.xml
+vendor/framework/androidx.camera.extensions.impl.jar
+vendor/lib64/libcom.xiaomi.hwadapter.decoupleutil.so
+vendor/lib64/libcom.xiaomi.hwadapter.postprocinterface.so

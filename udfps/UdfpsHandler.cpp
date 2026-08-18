@@ -56,6 +56,12 @@
 // How long the panel is given to enter LHBM before readiness is signalled, and
 // how long after a finger-up the off is re-asserted (must outlast the arm).
 #define FOD_ARM_DELAY_US (80 * 1000)
+
+// Hard ceiling on how long LHBM may stay lit without a finger-up. A slow press
+// never reaches it: a normal press cycle is ~180 ms (measured 2026-08-18), and a
+// slow one keeps the sensor emitting onAcquired, which calls onFingerUp and
+// bumps the generation, disarming this.
+#define FOD_STUCK_WATCHDOG_US (1000 * 1000)
 #define FOD_OFF_REASSERT_US (150 * 1000)
 
 using ::aidl::android::hardware::biometrics::fingerprint::AcquiredInfo;
@@ -178,7 +184,7 @@ class XiaomiDegasUdfpsHandler : public UdfpsHandler {
     }
 
     void onFingerDown(uint32_t x, uint32_t y, float /*minor*/, float /*major*/) {
-        LOG(DEBUG) << __func__ << "x: " << x << ", y: " << y;
+        LOG(INFO) << __func__ << "x: " << x << ", y: " << y;
 
         uint64_t generation = ++mFodGeneration;
         mFingerDown = true;
@@ -207,16 +213,46 @@ class XiaomiDegasUdfpsHandler : public UdfpsHandler {
             std::thread([this, generation]() {
                 usleep(FOD_ARM_DELAY_US);
                 if (mFodGeneration != generation) {
-                    LOG(DEBUG) << "stale FOD arm, not lighting LHBM";
+                    LOG(INFO) << "stale FOD arm, not lighting LHBM";
                     return;
                 }
                 mDevice->extCmd(mDevice, COMMAND_NIT, TARGET_BRIGHTNESS_1000NIT);
             }).detach();
         }
+
+        /*
+         * Measured 2026-08-18: the stray finger-down lands 13 ms *after*
+         * onAuthenticated and is then the last event of the session - no
+         * finger-up ever follows, because the UDFPS overlay is already being
+         * torn down. Both generation-based guards (the stale-arm check above
+         * and the off-reassert in onFingerUp) are powerless there: nothing is
+         * left to bump the generation. Bound the lit time directly instead.
+         *
+         * Seen on unlock and, more often, during enrolment, where the
+         * press-succeed-press cycle replays the race dozens of times.
+         */
+        std::thread([this, generation]() {
+            usleep(FOD_STUCK_WATCHDOG_US);
+            if (mFodGeneration != generation || !mFingerDown) {
+                return;
+            }
+            LOG(INFO) << "FOD watchdog: no finger-up, forcing LHBM off";
+            mFingerDown = false;
+            struct disp_local_hbm_req watchdogRequest = {
+                    .base = displayBasePrimary,
+                    .local_hbm_value = LHBM_TARGET_BRIGHTNESS_OFF_FINGER_UP,
+            };
+            ioctl(disp_fd_.get(), MI_DISP_IOCTL_SET_LOCAL_HBM, &watchdogRequest);
+            if (mEventThreadBroken) {
+                mDevice->extCmd(mDevice, COMMAND_NIT, TARGET_BRIGHTNESS_OFF);
+            }
+            mDevice->extCmd(mDevice, COMMAND_FOD_PRESS_STATUS, PARAM_FOD_RELEASED);
+            setFingerDown(false);
+        }).detach();
     }
 
     void onFingerUp() {
-        LOG(DEBUG) << __func__;
+        LOG(INFO) << __func__;
 
         uint64_t generation = ++mFodGeneration;
         bool wasDown = mFingerDown.exchange(false);
@@ -286,7 +322,7 @@ class XiaomiDegasUdfpsHandler : public UdfpsHandler {
     }
 
     void cancel() {
-        LOG(DEBUG) << __func__;
+        LOG(INFO) << __func__;
         onFingerUp();
     }
 

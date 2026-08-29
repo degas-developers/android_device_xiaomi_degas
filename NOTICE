@@ -1,0 +1,179 @@
+Device tree for Xiaomi 14T (degas)
+Copyright (C) 2025-2026 The LineageOS Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+The full license text is in the LICENSE file at the root of this tree.
+
+
+================================================================================
+1. ORIGIN AND MODIFICATIONS
+================================================================================
+
+Required by Apache License 2.0, section 4(b) and 4(c).
+
+This work is derived from the Redmi K70E / POCO X6 Pro 5G (duchamp) device tree:
+
+    https://github.com/mt6897-devs/device_xiaomi_duchamp
+    Copyright (C) 2025 The LineageOS Project
+    Licensed under the Apache License, Version 2.0
+
+Both devices use the MediaTek Dimensity 8300 (MT6897) platform.
+
+The upstream git history is preserved in this repository. Commits inherited
+from duchamp keep their original authorship and commit messages; they are
+prefixed "duchamp:" and are attributable through `git log`.
+
+The files in this tree have been modified from their upstream form. Measured
+on 2026-08-23 against duchamp at commit 074807a (branch lineage-23.2), and
+disregarding the device-name rename:
+
+    - 49 files added that do not exist upstream
+    - 19 upstream files removed
+    - 41 upstream files modified
+    - 69 upstream files unmodified
+
+Substantially rewritten or newly authored components include, among others:
+
+    sensors/UdfpsSensorSubHal.{cpp,h}      new
+    parts/src/.../telephony/ImsHealService.kt          new
+    parts/src/.../display/RefreshRateHealService.kt    new
+    parts/src/.../display/AodService.kt                new
+    parts/src/.../touch/TouchFeatureWrapper.kt         new
+    overlay/, overlay-lineage/, rro_overlays/          new
+    patches/                                           new
+    udfps/UdfpsHandler.cpp                 rewritten
+    proprietary-files.txt                  regenerated for this device
+    vendor.prop, device.mk, BoardConfig.mk substantially modified
+
+Components carried over from duchamp with little or no change include the
+audio HAL wrapper (audio/), parts of the SELinux policy (sepolicy/), and
+parts/src/.../display/{ColorService,DisplayFeatureWrapper}.kt.
+
+
+================================================================================
+2. COMPONENTS NOT COVERED BY THE APACHE LICENSE
+================================================================================
+
+The Apache-2.0 grant above applies to the device tree source authored for
+LineageOS. It does NOT apply to the following, which are included for the
+device to build and function and which remain the property of their
+respective owners.
+
+--------------------------------------------------------------------------------
+2.1 Linux kernel UAPI header
+--------------------------------------------------------------------------------
+
+    udfps/mi_disp.h
+
+    SPDX-License-Identifier: GPL-2.0-only WITH Linux-syscall-note
+    Copyright (c) 2020, The Linux Foundation. All rights reserved.
+
+This header is taken from the Xiaomi kernel source and is licensed under the
+GNU General Public License, version 2, with the Linux syscall note. The
+syscall note permits userspace programs to use this header without the GPL
+extending to them. It is redistributed here under its own license, not under
+Apache-2.0.
+
+--------------------------------------------------------------------------------
+2.2 Configuration extracted from Xiaomi stock firmware
+--------------------------------------------------------------------------------
+
+The following files were extracted from the Xiaomi 14T stock firmware
+(HyperOS, OS3.0.4.0.WNEMIXM) and adapted. They are the work of Xiaomi Inc.
+and/or MediaTek Inc. and are NOT licensed under Apache-2.0. No license to
+redistribute them is claimed or granted here.
+
+    init/init.mt6897.rc
+    init/init.project.rc
+    init/init.cgroup.rc
+    init/init.connectivity.rc
+    init/init.sensor_2_0.rc
+    init/ueventd.mt6897.rc
+    init/fstab.mt6897
+    init/fstab.enableswap
+    configs/audio/audio_effects.xml
+    configs/audio/audio_policy_configuration.xml
+    configs/media/media_codecs_c2.xml
+    configs/media/media_codecs_performance.xml
+    configs/media/media_profiles_V1_0.xml
+    configs/thermald-devices.conf
+    manifest.xml                                          (in part)
+    audio/android.hardware.audio.service.mediatek.rc
+    system_dlkm.modules.load
+    vendor_dlkm.modules.load
+    vendor_ramdisk.modules.load
+    vendor_ramdisk.modules.load.recovery
+    odm.prop, product.prop, system_ext.prop, vendor.prop  (in part)
+
+--------------------------------------------------------------------------------
+2.3 Vendor interface definitions
+--------------------------------------------------------------------------------
+
+    interfaces/audio/                (vendor.mediatek.hardware.audio)
+    interfaces/displayfeature_aidl/  (vendor.xiaomi.hardware.displayfeature_aidl)
+
+These AIDL files declare the interfaces of proprietary MediaTek and Xiaomi
+HALs so that open-source code can call them. The interface definitions are
+distributed under Apache-2.0 as marked in their headers. The HAL
+implementations themselves are proprietary, are not part of this repository,
+and are not licensed by it.
+
+--------------------------------------------------------------------------------
+2.4 Proprietary blobs
+--------------------------------------------------------------------------------
+
+    proprietary-files.txt
+    proprietary-firmware.txt
+
+These files are lists of file paths and hashes, not the files themselves. No
+proprietary binary is contained in this repository. The blobs they reference
+are the property of Xiaomi Inc., MediaTek Inc., Qualcomm, Google and other
+third parties, are extracted by the end user from their own device, and are
+not redistributed here under any license.
+
+--------------------------------------------------------------------------------
+2.5 Patches
+--------------------------------------------------------------------------------
+
+    patches/
+
+These are patches against AOSP, LineageOS and their dependencies. Each patch
+is a modification of code owned by its upstream project and licensed under
+that project's license (Apache-2.0 for AOSP framework code). They are
+distributed here as patches, not as copies of the upstream source.
+
+
+================================================================================
+3. TRADEMARKS
+================================================================================
+
+"Xiaomi" is a trademark of Xiaomi Inc. "MediaTek" and "Dimensity" are
+trademarks of MediaTek Inc. "Android" is a trademark of Google LLC.
+"LineageOS" is a trademark of the LineageOS project. Their use here is
+nominative — to identify the hardware and platform this tree targets — and
+does not imply endorsement by, or affiliation with, any of them.
+
+
+================================================================================
+4. MAINTAINER
+================================================================================
+
+Maintained by Advnirr <https://github.com/Advnirr>.
+
+This is an unofficial, community device tree. It is not endorsed by, and
+carries no warranty from, Xiaomi Inc., MediaTek Inc., Google LLC or the
+LineageOS project. See sections 7 and 8 of the LICENSE file: the software is
+provided "AS IS", without warranty of any kind, and no contributor is liable
+for any damages arising from its use — including, without limitation, damage
+to a device it is installed on.

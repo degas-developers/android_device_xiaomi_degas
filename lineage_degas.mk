@@ -3,12 +3,6 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-# Brand the build with the maintainer's name. LINEAGE_BUILDTYPE is forced back to
-# UNOFFICIAL by vendor/lineage/config/version.mk unless it is one of the official
-# release types, so EXTRAVERSION is the supported hook - it lands in
-# ro.lineage.display.version, which Settings shows as the LineageOS version.
-LINEAGE_EXTRAVERSION := -Advnirr
-
 # Inherit from those products. Most specific first.
 $(call inherit-product, $(SRC_TARGET_DIR)/product/core_64_bit_only.mk)
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)

@@ -35,13 +35,13 @@ from duchamp keep their original authorship and commit messages; they are
 prefixed "duchamp:" and are attributable through `git log`.
 
 The files in this tree have been modified from their upstream form. Measured
-on 2026-08-23 against duchamp at commit 074807a (branch lineage-23.2), and
+on 2026-09-10 against duchamp at commit 074807a (branch lineage-23.2), and
 disregarding the device-name rename:
 
-    - 49 files added that do not exist upstream
-    - 19 upstream files removed
-    - 41 upstream files modified
-    - 69 upstream files unmodified
+    - 51 files added that do not exist upstream
+    - 30 upstream files removed
+    - 42 upstream files modified
+    - 57 upstream files unmodified
 
 Substantially rewritten or newly authored components include, among others:
 
@@ -108,6 +108,10 @@ redistribute them is claimed or granted here.
     configs/media/media_codecs_performance.xml
     configs/media/media_profiles_V1_0.xml
     configs/thermald-devices.conf
+    configs/permissions/privapp-permissions-com.mediatek.ims.xml
+    configs/permissions/privapp-permissions-com.mediatek.telephony.xml
+    configs/sensors/hals.conf                             (in part)
+    init/ueventd.xiaomi.rc                                (in part)
     manifest.xml                                          (in part)
     audio/android.hardware.audio.service.mediatek.rc
     system_dlkm.modules.load
@@ -120,11 +124,10 @@ redistribute them is claimed or granted here.
 2.3 Vendor interface definitions
 --------------------------------------------------------------------------------
 
-    interfaces/audio/                (vendor.mediatek.hardware.audio)
     interfaces/displayfeature_aidl/  (vendor.xiaomi.hardware.displayfeature_aidl)
 
-These AIDL files declare the interfaces of proprietary MediaTek and Xiaomi
-HALs so that open-source code can call them. The interface definitions are
+These AIDL files declare the interface of a proprietary Xiaomi HAL so that
+open-source code can call it. The interface definitions are
 distributed under Apache-2.0 as marked in their headers. The HAL
 implementations themselves are proprietary, are not part of this repository,
 and are not licensed by it.

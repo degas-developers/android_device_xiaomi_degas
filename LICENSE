@@ -1,3 +1,16 @@
+The source in this repository is licensed under the Apache License, Version 2.0,
+the full text of which follows.
+
+Copyright 2025-2026 The LineageOS Project
+Copyright 2026 Mikhail Mlhcnn
+
+Parts of this tree are NOT covered by this license - a GPL-2.0 kernel UAPI
+header, and configuration extracted from Xiaomi stock firmware. See NOTICE for
+the full list, the attribution required by section 4, and the record of what was
+changed from the upstream tree.
+
+================================================================================
+
 Apache License
 Version 2.0, January 2004
 http://www.apache.org/licenses/
@@ -58,7 +71,8 @@ APPENDIX: How to apply the Apache License to your work.
 
 To apply the Apache License to your work, attach the following boilerplate notice, with the fields enclosed by brackets "[]" replaced with your own identifying information. (Don't include the brackets!)  The text should be enclosed in the appropriate comment syntax for the file format. We also recommend that a file or class name and description of purpose be included on the same "printed page" as the copyright notice for easier identification within third-party archives.
 
-Copyright [yyyy] [name of copyright owner]
+Copyright 2025-2026 The LineageOS Project
+Copyright 2026 Mikhail Mlhcnn
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

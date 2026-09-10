@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest>
+    <!--
+        LineageOS 23 (Android 16) local manifest for Xiaomi 14T (degas), MT6897.
+        Prebuilt GKI kernel — the mt6897-devs kernel_manifest (kernel-from-source)
+        is NOT needed.
+
+        Place as: .repo/local_manifests/degas.xml   then  repo sync
+
+        The `github` remote (= LineageOS) is already declared by the base manifest,
+        so common deps below reuse it. Device-specific repos use the `degas` remote.
+        The `degas` remote below must point at wherever the four device repos live
+        (device, device-kernel, vendor, wpa_supplicant_8). Vendor blobs are NOT
+        published - see the Building section of the device tree README.
+    -->
+
+    <remote name="degas" fetch="https://github.com/degas-developers" revision="lineage-23.2" />
+
+    <!-- ===== Device-specific (yours) ===== -->
+    <project path="device/xiaomi/degas"        name="android_device_xiaomi_degas"        remote="degas" />
+    <project path="device/xiaomi/degas-kernel" name="android_device_xiaomi_degas-kernel" remote="degas" />
+    <project path="vendor/xiaomi/degas"        name="android_vendor_xiaomi_degas"        remote="degas" />
+
+    <!-- ===== Forked upstream repos ===== -->
+    <!-- wpa_supplicant with MTK gen4m WPA3/SAE fix (WPA_VERSION_3 exemption) -->
+    <remove-project name="LineageOS/android_external_wpa_supplicant_8" />
+    <project path="external/wpa_supplicant_8" name="android_external_wpa_supplicant_8" remote="degas" />
+
+    <!-- ===== Common deps (LineageOS upstream, not in base manifest) ===== -->
+    <project path="hardware/mediatek"              name="LineageOS/android_hardware_mediatek"             remote="github" revision="lineage-23.2" />
+    <project path="hardware/xiaomi"                name="LineageOS/android_hardware_xiaomi"               remote="github" revision="lineage-23.2" />
+    <project path="device/mediatek/sepolicy_vndr" name="LineageOS/android_device_mediatek_sepolicy_vndr" remote="github" revision="lineage-23.2" />
+
+    <!--
+        NOTE: the following are ALREADY declared by the LineageOS lineage-23.2 base
+        manifest (snippets/lineage.xml + default.xml). Re-declaring them here makes
+        `repo sync` abort with "duplicate path ...". Do NOT add them back:
+            vendor/qcom/opensource/vibrator   (snippets/lineage.xml)
+            hardware/lineage/compat           (snippets/lineage.xml)
+            hardware/lineage/interfaces       (snippets/lineage.xml)
+            hardware/google/pixel             (default.xml)
+    -->
+</manifest>

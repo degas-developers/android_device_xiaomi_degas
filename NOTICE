@@ -35,10 +35,10 @@ from duchamp keep their original authorship and commit messages; they are
 prefixed "duchamp:" and are attributable through `git log`.
 
 The files in this tree have been modified from their upstream form. Measured
-on 2026-09-10 against duchamp at commit 074807a (branch lineage-23.2), and
+on 2026-09-11 against duchamp at commit 074807a (branch lineage-23.2), and
 disregarding the device-name rename:
 
-    - 51 files added that do not exist upstream
+    - 52 files added that do not exist upstream
     - 30 upstream files removed
     - 42 upstream files modified
     - 57 upstream files unmodified
@@ -52,12 +52,14 @@ Substantially rewritten or newly authored components include, among others:
     parts/src/.../touch/TouchFeatureWrapper.kt         new
     overlay/, overlay-lineage/, rro_overlays/          new
     patches/                                           new
+    degas.xml                                          new
     udfps/UdfpsHandler.cpp                 rewritten
     proprietary-files.txt                  regenerated for this device
     vendor.prop, device.mk, BoardConfig.mk substantially modified
 
-Components carried over from duchamp with little or no change include the
-audio HAL wrapper (audio/), parts of the SELinux policy (sepolicy/), and
+Components carried over from duchamp with little or no change include most
+of the audio HAL wrapper (audio/ — two headers patched, the rest untouched),
+parts of the SELinux policy (sepolicy/), and
 parts/src/.../display/{ColorService,DisplayFeatureWrapper}.kt.
 
 
@@ -141,8 +143,8 @@ and are not licensed by it.
 
 These files are lists of file paths and hashes, not the files themselves. No
 proprietary binary is contained in this repository. The blobs they reference
-are the property of Xiaomi Inc., MediaTek Inc., Qualcomm, Google and other
-third parties, are extracted by the end user from their own device, and are
+are the property of Xiaomi Inc., MediaTek Inc., Arm Limited, Google LLC and
+other third parties, are extracted by the end user from their own device, and are
 not redistributed here under any license.
 
 --------------------------------------------------------------------------------
@@ -172,11 +174,10 @@ does not imply endorsement by, or affiliation with, any of them.
 4. MAINTAINER
 ================================================================================
 
-Maintained by the degas device tree contributors.
+Maintained by the degas device tree contributors. This is not an official
+Xiaomi, MediaTek, Google or LineageOS release.
 
-This is an unofficial, community device tree. It is not endorsed by, and
-carries no warranty from, Xiaomi Inc., MediaTek Inc., Google LLC or the
-LineageOS project. See sections 7 and 8 of the LICENSE file: the software is
+See sections 7 and 8 of the LICENSE file: the software is
 provided "AS IS", without warranty of any kind, and no contributor is liable
 for any damages arising from its use — including, without limitation, damage
 to a device it is installed on.

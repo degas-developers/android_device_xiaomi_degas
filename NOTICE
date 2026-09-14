@@ -35,13 +35,13 @@ from duchamp keep their original authorship and commit messages; they are
 prefixed "duchamp:" and are attributable through `git log`.
 
 The files in this tree have been modified from their upstream form. Measured
-on 2026-09-11 against duchamp at commit 074807a (branch lineage-23.2), and
+on 2026-09-14 against duchamp at commit 074807a (branch lineage-23.2), and
 disregarding the device-name rename:
 
     - 52 files added that do not exist upstream
     - 30 upstream files removed
-    - 42 upstream files modified
-    - 57 upstream files unmodified
+    - 41 upstream files modified
+    - 58 upstream files unmodified
 
 Substantially rewritten or newly authored components include, among others:
 

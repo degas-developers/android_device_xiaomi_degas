@@ -8,13 +8,6 @@
     <bool name="config_enableAuxCameras">true</bool>
 
     <!--
-         The name the Leica frame calls the phone by. ro.product.model is the
-         code name here (2406APNFAG), so the app falls back to something nobody
-         recognises unless the device carries the market name itself.
-    -->
-    <string name="leica_watermark_model" translatable="false">14T</string>
-
-    <!--
          The array has to stay declared even while it is empty: Aperture reads it
          out of the overlay package by name at startup, and with the overlay
          applied but the name gone the lookup returns id 0 and

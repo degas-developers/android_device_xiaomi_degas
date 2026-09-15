@@ -1,0 +1,52 @@
+From: degas maintainer <mikhail@advnirr.org>
+Subject: [PATCH] hidl/audio: drop the duplicate mediatek audio service
+
+Upstream hardware/mediatek added android.hardware.audio.service.mediatek, which
+degas already ships from device/xiaomi/degas/audio with the boot-crash fix
+(MtkAudio.h/SoundTriggerHw.h), soundtrigger3 V3 and vendor.mediatek.hardware.audio-impl.
+Having the module in both namespaces makes soong fail:
+  module "android.hardware.audio.service.mediatek" found in multiple namespaces
+  (device/xiaomi/degas and hardware/mediatek) when including in vendor partition.
+device.mk installs ours, so drop upstream's definition. Nothing in hardware/mediatek
+references it by name.
+
+diff --git a/hidl/audio/Android.bp b/hidl/audio/Android.bp
+index fd9c220..81e18e7 100644
+--- a/hidl/audio/Android.bp
++++ b/hidl/audio/Android.bp
+@@ -3,30 +3,8 @@
+ // SPDX-License-Identifier: Apache-2.0
+ //
+ 
+-cc_binary {
+-    name: "android.hardware.audio.service.mediatek",
+-
+-    init_rc: ["android.hardware.audio.service.mediatek.rc"],
+-    relative_install_path: "hw",
+-    vendor: true,
+-
+-    srcs: ["service.cpp"],
+-
+-    cflags: [
+-        "-Wall",
+-        "-Wextra",
+-        "-Werror",
+-    ],
+-
+-    shared_libs: [
+-        "libcutils",
+-        "libbinder",
+-        "libbinder_ndk",
+-        "libhidlbase",
+-        "liblog",
+-        "libutils",
+-        "libhardware",
+-        "android.hardware.soundtrigger3-V1-ndk",
+-        "vendor.mediatek.hardware.audio-V1-ndk",
+-    ],
+-}
++// NOTE (degas): the "android.hardware.audio.service.mediatek" cc_binary that
++// upstream added here is intentionally dropped. degas ships its own service in
++// device/xiaomi/degas/audio with the boot-crash fix (MtkAudio.h/SoundTriggerHw.h),
++// soundtrigger3 V3 and vendor.mediatek.hardware.audio-impl. Keeping both makes
++// soong fail with "found in multiple namespaces". device.mk installs ours.

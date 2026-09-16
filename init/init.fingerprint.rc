@@ -7,3 +7,18 @@ on post-fs-data
     mkdir /data/vendor/fpc 0770 system system
     mkdir /data/vendor/fingerprint 0770 system system
     mkdir /mnt/vendor/persist/fpc 0770 system system
+
+# Local HBM reads the panel's own backlight level, and until something changes
+# the brightness after boot that level is 0: the first write is lost below
+# leds-mtk and same-value writes are deduplicated. A touch on the sensor then
+# blanks the screen - reliably in setup, where the screen never turns off
+# between boot and fingerprint enrollment. See degas-backlight-sync.sh.
+service degas-backlight-sync /vendor/bin/degas-backlight-sync.sh
+    class late_start
+    user system
+    group system
+    oneshot
+    disabled
+
+on property:sys.boot_completed=1
+    start degas-backlight-sync

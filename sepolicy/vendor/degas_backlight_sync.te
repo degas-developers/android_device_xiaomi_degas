@@ -1,0 +1,10 @@
+type degas_backlight_sync, domain;
+type degas_backlight_sync_exec, exec_type, file_type, vendor_file_type;
+
+init_daemon_domain(degas_backlight_sync)
+
+allow degas_backlight_sync vendor_shell_exec:file rx_file_perms;
+allow degas_backlight_sync vendor_toolbox_exec:file rx_file_perms;
+
+r_dir_file(degas_backlight_sync, sysfs)
+rw_dir_file(degas_backlight_sync, sysfs_leds)

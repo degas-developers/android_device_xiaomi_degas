@@ -71,3 +71,10 @@ prebuilt_etc {
     src: "ueventd.xiaomi.rc",
     device_specific: true,
 }
+
+sh_binary {
+    name: "degas-backlight-sync",
+    src: "degas-backlight-sync.sh",
+    filename: "degas-backlight-sync.sh",
+    vendor: true,
+}

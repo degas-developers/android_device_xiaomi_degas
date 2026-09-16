@@ -48,3 +48,6 @@
 /odm/etc/init\.panel_info\.sh                                                                          u:object_r:vendor_touch_init_shell_exec:s0
 /dev/xiaomi-thp                                                                                        u:object_r:touchfeature_device:s0
 /dev/xiaomi-touch-knock                                                                                u:object_r:touchfeature_device:s0
+
+# Backlight sync
+/(vendor|system/vendor)/bin/degas-backlight-sync\.sh                                                   u:object_r:degas_backlight_sync_exec:s0

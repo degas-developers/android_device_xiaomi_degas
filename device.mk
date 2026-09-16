@@ -169,6 +169,7 @@ PRODUCT_PACKAGES += \
 
 # Init
 PRODUCT_PACKAGES += \
+    degas-backlight-sync \
     fstab.enableswap \
     fstab.mt6897 \
     fstab.mt6897.vendor_ramdisk \

@@ -49,6 +49,7 @@ object TouchFeatureWrapper {
 
     /** MODE_TYPE values from the vendor's xiaomi_touch.h. */
     const val MODE_TOUCH_FOD_ENABLE = 10
+    const val MODE_TOUCH_DOUBLETAP = 14
 
     @Volatile private var service: IBinder? = null
 

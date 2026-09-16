@@ -38,7 +38,7 @@ The files in this tree have been modified from their upstream form. Measured
 on 2026-09-14 against duchamp at commit 074807a (branch lineage-23.2), and
 disregarding the device-name rename:
 
-    - 52 files added that do not exist upstream
+    - 53 files added that do not exist upstream
     - 30 upstream files removed
     - 41 upstream files modified
     - 58 upstream files unmodified
@@ -50,6 +50,7 @@ Substantially rewritten or newly authored components include, among others:
     parts/src/.../display/RefreshRateHealService.kt    new
     parts/src/.../display/AodService.kt                new
     parts/src/.../touch/TouchFeatureWrapper.kt         new
+    parts/src/.../touch/TouchGestureService.kt         new
     overlay/, overlay-lineage/, rro_overlays/          new
     patches/                                           new
     degas.xml                                          new

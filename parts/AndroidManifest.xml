@@ -57,6 +57,11 @@
             android:name=".telephony.ImsHealService"
             android:permission="ImsHealService">
         </service>
+
+        <service
+            android:name=".touch.TouchGestureService"
+            android:permission="TouchGestureService">
+        </service>
     </application>
 </manifest>
 

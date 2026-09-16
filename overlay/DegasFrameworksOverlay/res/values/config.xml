@@ -751,6 +751,11 @@
          non-zero. -->
     <integer name="config_defaultPeakRefreshRate">144</integer>
 
+    <!-- Whether the device supports double tap to wake. The touch controller decodes the
+         gesture itself and reports KEY_WAKEUP; TouchGestureService in XiaomiParts arms it
+         through Touch_Doubletap_Mode on the touchfeature HAL. -->
+    <bool name="config_supportDoubleTapWake">true</bool>
+
     <!-- Whether or not wcg (wide color gamut) should be enabled on this device,
          we only enabled it while the device has ability of mixed color spaces composition -->
     <bool name="config_enableWcgMode">true</bool>

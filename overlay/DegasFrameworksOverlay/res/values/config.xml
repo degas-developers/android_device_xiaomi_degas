@@ -751,6 +751,13 @@
          non-zero. -->
     <integer name="config_defaultPeakRefreshRate">144</integer>
 
+    <!-- Hold 120 Hz for as long as the UDFPS overlay is up (patches/frameworks_base/0003).
+         Local HBM reprograms the panel to 120 Hz, and any display mode change while it is lit
+         shows as a full-screen brightness flash; stock does the same through
+         ro.vendor.display.fod_monitor_default_fps=120, from ENROLL_START/AUTH_START to the
+         matching stop. -->
+    <integer name="config_udfpsRefreshRate">120</integer>
+
     <!-- Whether the device supports double tap to wake. The touch controller decodes the
          gesture itself and reports KEY_WAKEUP; TouchGestureService in XiaomiParts arms it
          through Touch_Doubletap_Mode on the touchfeature HAL. -->

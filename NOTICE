@@ -47,7 +47,6 @@ Substantially rewritten or newly authored components include, among others:
 
     sensors/UdfpsSensorSubHal.{cpp,h}      new
     parts/src/.../telephony/ImsHealService.kt          new
-    parts/src/.../display/RefreshRateHealService.kt    new
     parts/src/.../display/AodService.kt                new
     parts/src/.../touch/TouchFeatureWrapper.kt         new
     parts/src/.../touch/TouchGestureService.kt         new

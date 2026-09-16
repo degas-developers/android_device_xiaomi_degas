@@ -4,9 +4,6 @@ vendor_restricted_prop(vendor_batterysecret_prop)
 # Display
 vendor_internal_prop(vendor_displayfeature_prop)
 
-# Written by the fingerprint HAL, read by XiaomiParts, so it has to be public.
-vendor_public_prop(vendor_degas_display_prop)
-
 # Fingerprint
 vendor_public_prop(vendor_fingerprint_prop)
 

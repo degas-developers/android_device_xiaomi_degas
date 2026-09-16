@@ -15,7 +15,6 @@ import android.view.Display;
 import android.view.Display.HdrCapabilities;
 import com.xiaomi.settings.display.ColorService
 import com.xiaomi.settings.display.AodService
-import com.xiaomi.settings.display.RefreshRateHealService
 import com.xiaomi.settings.telephony.ImsHealService
 import com.xiaomi.settings.touch.TouchGestureService
 
@@ -51,7 +50,6 @@ class BootCompletedReceiver : BroadcastReceiver() {
         // Display
         ColorService.startService(context)
         AodService.startService(context)
-        RefreshRateHealService.startService(context)
 
         // Touch
         TouchGestureService.startService(context)

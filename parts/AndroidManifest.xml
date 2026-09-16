@@ -49,11 +49,6 @@
         </service>
 
         <service
-            android:name=".display.RefreshRateHealService"
-            android:permission="RefreshRateHealService">
-        </service>
-
-        <service
             android:name=".telephony.ImsHealService"
             android:permission="ImsHealService">
         </service>

@@ -11,10 +11,6 @@ allow hal_fingerprint_default vendor_displayfeature_device:chr_file rw_file_perm
 
 set_prop(hal_fingerprint_default, vendor_fingerprint_prop)
 
-# LHBM leaves the panel at 120 Hz behind DRM's back; UdfpsHandler publishes a
-# tick here so XiaomiParts can force the mode-set that puts it back.
-set_prop(hal_fingerprint_default, vendor_degas_display_prop)
-
 # LHBM: the FP HAL drives the fingerprint spot through the composer, so it both
 # calls it and gets called back.
 binder_call(hal_fingerprint_default, hal_graphics_composer_default)

@@ -1,6 +1,4 @@
-From 180c3d391241490e942cce3d355fea955c4d906d Mon Sep 17 00:00:00 2001
-From: degas <degas@local>
-Date: Fri, 7 Aug 2026 19:46:09 +0300
+From: Mikhail Mlhcnn <mikhail@advnirr.org>
 Subject: [PATCH] Enable the SystemUI flashlight strength slider
 
 The QS flashlight tile can open a dialog with a brightness slider, but the

@@ -1,4 +1,4 @@
-From: degas device tree
+From: Mikhail Mlhcnn <mikhail@advnirr.org>
 Subject: [PATCH] BatteryStats: ignore an implausible charge time from the health HAL
 
 computeChargeTimeRemaining() returns whatever the health HAL reports as

@@ -25,7 +25,7 @@ fails with "can't open patch". Verify they are live before building:
 git -C build/soong       status --porcelain   # M scripts/check_boot_jars/package_allowed_list.txt
 git -C frameworks/native status --porcelain   # M services/surfaceflinger/SurfaceFlinger.cpp (+ Scheduler/Scheduler.cpp)
 git -C packages/apps/Launcher3 status --porcelain  # M src/com/android/launcher3/states/SpringLoadedState.java
-git -C frameworks/base   status --porcelain   # M services/core/.../BatteryStatsImpl.java (+ packages/SystemUI/.../UdfpsControllerOverlay.kt)
+git -C frameworks/base   status --porcelain   # M services/core/.../BatteryStatsImpl.java (+ core/res/.../config.xml, symbols.xml, .../mode/DisplayModeDirector.java, packages/SystemUI/.../UdfpsController.java)
 git -C vendor/lineage    status --porcelain   # ?? release/aconfig/bp4a/com.android.systemui/flashlight_strength_flag_values.textproto
 git -C hardware/mediatek status --porcelain   # M hidl/audio/Android.bp
 ```

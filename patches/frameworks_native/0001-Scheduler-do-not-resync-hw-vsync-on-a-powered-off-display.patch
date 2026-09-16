@@ -1,3 +1,6 @@
+From: Mikhail Mlhcnn <mikhail@advnirr.org>
+Subject: [PATCH] Scheduler: do not resync hardware vsync on a powered-off display
+
 diff --git a/services/surfaceflinger/Scheduler/Scheduler.cpp b/services/surfaceflinger/Scheduler/Scheduler.cpp
 index 18e6fccddf..5c04e1f28e 100644
 --- a/services/surfaceflinger/Scheduler/Scheduler.cpp

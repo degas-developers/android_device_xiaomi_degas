@@ -1,4 +1,4 @@
-From: degas device tree <nobody@localhost>
+From: Mikhail Mlhcnn <mikhail@advnirr.org>
 Subject: [PATCH] Launcher3: do not blur the wallpaper during a drag
 
 Dragging a widget or an icon puts the launcher in SPRING_LOADED, which asks

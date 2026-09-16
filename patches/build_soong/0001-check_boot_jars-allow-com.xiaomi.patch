@@ -1,4 +1,4 @@
-From: degas device tree
+From: Mikhail Mlhcnn <mikhail@advnirr.org>
 Subject: [PATCH] check_boot_jars: allow com.xiaomi
 
 degas puts MediaTek's IMS/telephony jars on the bootclasspath (they have to be

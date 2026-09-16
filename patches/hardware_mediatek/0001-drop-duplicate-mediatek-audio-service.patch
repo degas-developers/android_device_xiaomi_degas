@@ -1,4 +1,4 @@
-From: degas maintainer <mikhail@advnirr.org>
+From: Mikhail Mlhcnn <mikhail@advnirr.org>
 Subject: [PATCH] hidl/audio: drop the duplicate mediatek audio service
 
 Upstream hardware/mediatek added android.hardware.audio.service.mediatek, which

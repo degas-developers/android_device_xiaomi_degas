@@ -1,4 +1,4 @@
-From: degas device tree
+From: Mikhail Mlhcnn <mikhail@advnirr.org>
 Subject: [PATCH] udfps: hold a configurable refresh rate while the overlay is shown
 
 Touching the fingerprint sensor on degas brightens the whole screen whenever the

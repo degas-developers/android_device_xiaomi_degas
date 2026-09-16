@@ -1,4 +1,4 @@
-From: degas device tree
+From: Mikhail Mlhcnn <mikhail@advnirr.org>
 Subject: [PATCH] SystemUI: register non-ONE_SHOT doze sensors via the listener API
 
 DozeSensors drives every TriggerSensor through SensorManager#requestTriggerSensor,

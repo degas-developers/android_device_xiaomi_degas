@@ -1,3 +1,6 @@
+From: Mikhail Mlhcnn <mikhail@advnirr.org>
+Subject: [PATCH] SurfaceFlinger: do not mode-set a powered-off display
+
 diff --git a/services/surfaceflinger/SurfaceFlinger.cpp b/services/surfaceflinger/SurfaceFlinger.cpp
 index 0ab1a9b812..4d40290693 100644
 --- a/services/surfaceflinger/SurfaceFlinger.cpp
